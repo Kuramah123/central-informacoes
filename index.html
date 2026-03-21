@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal MRS - Central de Informações</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --azul-mrs: #00355B;
+            --azul-claro: #0077B6;
+            --amarelo-mrs: #FFCF00;
+            --cinza-fundo: #f4f7f9;
+            --branco: #ffffff;
+            --verde-ok: #28a745;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { display: flex; background-color: var(--cinza-fundo); min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar { width: 250px; height: 100vh; background: var(--azul-mrs); color: white; position: fixed; z-index: 100; }
+        .logo-box { background: white; padding: 20px; text-align: center; border-bottom: 4px solid var(--amarelo-mrs); }
+        .logo-box img { width: 150px; }
+        .nav-links { list-style: none; margin-top: 20px; }
+        .nav-links li a { 
+            display: flex; align-items: center; padding: 15px 25px; 
+            color: white; text-decoration: none; cursor: pointer; transition: 0.3s;
+        }
+        .nav-links li a:hover, .nav-links li a.active { 
+            color: var(--amarelo-mrs); background: rgba(255,255,255,0.1); border-left: 4px solid var(--amarelo-mrs); 
+        }
+        .nav-links i { margin-right: 15px; width: 20px; text-align: center; }
+
+        /* CONTEÚDO PRINCIPAL */
+        .main-content { margin-left: 250px; width: 100%; padding: 40px; }
+
+        /* CONTROLE DE PÁGINAS (Esconde as abas que não estão ativas) */
+        .page-content { display: none; animation: fadeIn 0.5s; }
+        .page-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ESTILOS DA HOME (CARDS) */
+        .hub-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .card h2 { color: var(--azul-mrs); margin-bottom: 20px; font-size: 18px; border-left: 4px solid var(--amarelo-mrs); padding-left: 10px; }
+        
+        .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; }
+        .btn-quick { background: #f8f9fa; padding: 20px; text-align: center; border-radius: 10px; text-decoration: none; color: var(--azul-mrs); font-weight: bold; transition: 0.3s; border: 1px solid #eee; }
+        .btn-quick i { display: block; font-size: 25px; margin-bottom: 10px; }
+        .btn-quick:hover { background: var(--amarelo-mrs); transform: translateY(-3px); }
+
+        /* ESTILOS DAS MEDIÇÕES (VELOCÍMETRO E BARRAS) */
+        .gauge-section { display: flex; justify-content: center; margin-bottom: 30px; }
+        .gauge { position: relative; width: 180px; height: 90px; background: #ddd; border-radius: 180px 180px 0 0; overflow: hidden; }
+        .gauge-fill { position: absolute; top: 100%; left: 50%; width: 180px; height: 180px; background: var(--azul-claro); transform-origin: center top; transition: 1s; transform: translate(-50%, -100%) rotate(0.47turn); }
+        .gauge-cover { position: absolute; top: 20px; left: 20px; width: 140px; height: 70px; background: white; border-radius: 140px 140px 0 0; display: flex; align-items: flex-end; justify-content: center; font-size: 22px; font-weight: bold; }
+
+        .proj-bar-container { background: #eee; height: 35px; border-radius: 5px; position: relative; display: flex; overflow: hidden; margin-top: 10px; }
+        .proj-fill { position: absolute; height: 100%; background: var(--azul-claro); transition: 1s; z-index: 1; }
+        .proj-step { flex: 1; border-right: 1px solid white; z-index: 2; font-size: 10px; color: white; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+        .table-mrs { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
+        .table-mrs th { background: var(--azul-mrs); color: white; padding: 12px; text-align: left; }
+        .table-mrs td { padding: 12px; border-bottom: 1px solid #eee; }
+
+        /* INPUTS DE TESTE */
+        .debug-panel { background: #333; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-box">
+            <img src="https://logodownload.org/wp-content/uploads/2018/09/mrs-logistica-logo.png" alt="MRS">
+        </div>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')" id="link-home" class="active"><i class="fas fa-home"></i> Início</a></li>
+            <li><a onclick="showPage('medicoes')" id="link-medicoes"><i class="fas fa-ruler"></i> Medições</a></li>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
+            <li><a href="#"><i class="fas fa-dollar-sign"></i> Custos</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Pessoas</a></li>
+            <li><a href="#"><i class="fas fa-bullseye"></i> Metas</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="main-content">
+
+        <!-- PÁGINA: INÍCIO (HUB) -->
+        <div id="home" class="page-content active">
+            <header style="margin-bottom: 30px;">
+                <h1 style="color: var(--azul-mrs);">Central de Informações MRS</h1>
+                <p>Bem-vindo ao portal estratégico da Gerência.</p>
+            </header>
+
+            <div class="hub-grid">
+                <div class="left-col">
+                    <div class="card">
+                        <h2><i class="fas fa-star"></i> Acesso Rápido</h2>
+                        <div class="quick-grid">
+                            <a href="#" class="btn-quick"><i class="fas fa-hard-hat"></i>Obras</a>
+                            <a href="#" class="btn-quick"><i class="fas fa-file-pdf"></i>Normas</a>
+                            <a href="#" class="btn-quick"><i class="fas fa-map"></i>Malha</a>
+                            <a href="#" class="btn-quick"><i class="fas fa-shield-alt"></i>Segurança</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2><i class="fas fa-newspaper"></i> Notícias</h2>
+                        <div style="display:flex; gap:15px; border-bottom:1px solid #eee; padding-bottom:15px;">
+                            <img src="https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" width="100" style="border-radius:8px">
+                            <div>
+                                <strong>Recorde de medições em Janeiro/26</strong>
+                                <p style="font-size:13px; color:#666">A equipe de obras superou a meta de avanço físico...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-col">
+                    <div class="card">
+                        <h2><i class="fas fa-camera"></i> Fotos Recentes</h2>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <img src="https://picsum.photos/id/191/100/100" style="width:100%; border-radius:5px">
+                            <img src="https://picsum.photos/id/192/100/100" style="width:100%; border-radius:5px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA: MEDIÇÕES -->
+        <div id="medicoes" class="page-content">
+            <header style="display:flex; justify-content:space-between; margin-bottom:30px;">
+                <div>
+                    <h1 style="color: var(--azul-mrs);">INFORMATIVO MEDIÇÕES</h1>
+                    <p>Mês de Referência: JAN/2026</p>
+                </div>
+                <div style="background:var(--azul-mrs); color:white; padding:10px 20px; border-radius:20px; height:fit-content">Atualizado em 27/02/2026</div>
+            </header>
+
+            <!-- Painel de Teste para você brincar -->
+            <div class="debug-panel">
+                <strong>Simular Imputação de Dados:</strong><br><br>
+                Mover Medição Geral: <input type="range" min="0" max="100" value="95" oninput="updateGauge(this.value)"> 
+                <span id="txt-gauge">95%</span>
+            </div>
+
+            <div class="gauge-section">
+                <div style="text-align:center">
+                    <div class="gauge">
+                        <div class="gauge-fill" id="gauge-fill-id"></div>
+                        <div class="gauge-cover" id="gauge-val">95,3%</div>
+                    </div>
+                    <p style="font-weight:bold; color:var(--azul-mrs); margin-top:10px">RESULTADO GERÊNCIA</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <strong>REMODELAÇÃO - EPYA</strong>
+                    <span style="color:var(--azul-claro); font-weight:bold">87,5% concluído</span>
+                </div>
+                <div class="proj-bar-container">
+                    <div class="proj-fill" style="width: 87.5%;"></div>
+                    <div class="proj-step">Recebida</div>
+                    <div class="proj-step">Lançado SAP</div>
+                    <div class="proj-step">Aprovador 1</div>
+                    <div class="proj-step">Aprovador 2</div>
+                    <div class="proj-step">Aguardando NF</div>
+                    <div class="proj-step">Finalizado</div>
+                </div>
+            </div>
+
+            <table class="table-mrs">
+                <thead>
+                    <tr><th>Projeto</th><th>Status</th><th>Valor (R$)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>REMODELAÇÃO</td><td><span style="color:green">● Aprovado</span></td><td>R$ 450.000,00</td></tr>
+                    <tr><td>CAMPO GRANDE</td><td><span style="color:green">● Aprovado</span></td><td>R$ 280.000,00</td></tr>
+                    <tr style="font-weight:bold; background:#f9f9f9"><td>TOTAL DO MÊS</td><td></td><td>R$ 730.000,00</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <script>
+        // FUNÇÃO PARA TROCAR DE PÁGINA
+        function showPage(pageId) {
+            // Esconde todas as páginas
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Tira a cor de destaque de todos os links da sidebar
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Mostra a página clicada
+            document.getElementById(pageId).classList.add('active');
+            // Destaca o link na sidebar
+            document.getElementById('link-' + pageId).classList.add('active');
+        }
+
+        // FUNÇÃO DO VELOCÍMETRO
+        function updateGauge(val) {
+            document.getElementById('gauge-val').innerText = val + '%';
+            document.getElementById('txt-gauge').innerText = val + '%';
+            let rotation = (val / 200); 
+            document.getElementById('gauge-fill-id').style.transform = `translate(-50%, -100%) rotate(${rotation}turn)`;
+        }
+    </script>
+</body>
+</html>
