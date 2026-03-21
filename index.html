@@ -14,7 +14,6 @@
             --cinza-fundo: #f4f7f9;
             --branco: #ffffff;
             --verde-ok: #28a745;
-            --vermelho: #d9534f;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -22,76 +21,54 @@
 
         /* SIDEBAR */
         .sidebar { width: 250px; height: 100vh; background: var(--azul-mrs); color: white; position: fixed; z-index: 100; }
-        .logo-box { background: white; padding: 20px; text-align: center; border-bottom: 4px solid var(--amarelo-mrs); }
-        .logo-box img { width: 150px; }
-        .nav-links { list-style: none; margin-top: 20px; }
+        .logo-box { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--amarelo-mrs); }
+        .logo-box img { width: 100%; max-width: 140px; height: auto; }
+        .nav-links { list-style: none; margin-top: 15px; }
         .nav-links li a { 
-            display: flex; align-items: center; padding: 15px 25px; 
-            color: white; text-decoration: none; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; padding: 12px 20px; 
+            color: white; text-decoration: none; cursor: pointer; transition: 0.3s; font-size: 14px;
         }
         .nav-links li a:hover, .nav-links li a.active { 
             color: var(--amarelo-mrs); background: rgba(255,255,255,0.1); border-left: 4px solid var(--amarelo-mrs); 
         }
-        .nav-links i { margin-right: 15px; width: 20px; text-align: center; }
+        .nav-links i { margin-right: 12px; width: 20px; text-align: center; }
 
-        /* CONTEÚDO PRINCIPAL */
-        .main-content { margin-left: 250px; width: 100%; padding: 40px; }
-
-        /* CONTROLE DE PÁGINAS */
+        /* CONTEÚDO */
+        .main-content { margin-left: 250px; width: 100%; padding: 30px; }
         .page-content { display: none; animation: fadeIn 0.4s; }
         .page-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* CARDS */
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .card h2 { color: var(--azul-mrs); margin-bottom: 15px; font-size: 17px; border-left: 4px solid var(--amarelo-mrs); padding-left: 10px; display: flex; align-items: center; gap: 8px; }
 
-        /* ESTILOS COMUNS (CARDS) */
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .card h2 { color: var(--azul-mrs); margin-bottom: 20px; font-size: 18px; border-left: 4px solid var(--amarelo-mrs); padding-left: 10px; }
+        /* --- PÁGINA INÍCIO --- */
+        .hub-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+        .btn-quick { background: #f8f9fa; padding: 15px; text-align: center; border-radius: 8px; text-decoration: none; color: var(--azul-mrs); font-weight: bold; transition: 0.3s; border: 1px solid #eee; font-size: 13px; }
+        .btn-quick i { display: block; font-size: 22px; margin-bottom: 8px; }
+        .btn-quick:hover { background: var(--amarelo-mrs); border-color: var(--amarelo-mrs); }
 
-        /* PÁGINA EVENTOS (LISTA DE CALENDÁRIO) */
-        .event-item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            transition: 0.2s;
-        }
-        .event-item:hover { background-color: #fcfcfc; }
-        .event-date {
-            background: var(--azul-mrs);
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            min-width: 65px;
-        }
-        .event-date span { display: block; font-size: 22px; font-weight: bold; line-height: 1; }
-        .event-date small { font-size: 11px; text-transform: uppercase; }
+        .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .news-img { width: 90px; height: 65px; border-radius: 6px; object-fit: cover; }
         
-        .event-info strong { color: var(--azul-mrs); font-size: 16px; }
-        .event-info p { color: #666; font-size: 14px; margin-top: 3px; }
-        .event-tag {
-            margin-left: auto;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .tag-visita { background: #e3f2fd; color: #1976d2; }
-        .tag-reuniao { background: #fff3e0; color: #f57c00; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .gallery-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; }
 
-        /* ESTILOS MEDIÇÕES (VELOCÍMETRO) */
-        .gauge-section { display: flex; justify-content: center; margin-bottom: 30px; }
-        .gauge { position: relative; width: 180px; height: 90px; background: #ddd; border-radius: 180px 180px 0 0; overflow: hidden; }
-        .gauge-fill { position: absolute; top: 100%; left: 50%; width: 180px; height: 180px; background: var(--azul-claro); transform-origin: center top; transition: 1s; transform: translate(-50%, -100%) rotate(0.47turn); }
-        .gauge-cover { position: absolute; top: 20px; left: 20px; width: 140px; height: 70px; background: white; border-radius: 140px 140px 0 0; display: flex; align-items: flex-end; justify-content: center; font-size: 22px; font-weight: bold; }
+        /* --- PÁGINA MEDIÇÕES (ESTILO PDF) --- */
+        .gauge-container { display: flex; justify-content: center; margin-bottom: 25px; }
+        .gauge { position: relative; width: 160px; height: 80px; background: #ddd; border-radius: 160px 160px 0 0; overflow: hidden; }
+        .gauge-fill { position: absolute; top: 100%; left: 50%; width: 160px; height: 160px; background: var(--azul-claro); transform-origin: center top; transition: 1s; transform: translate(-50%, -100%) rotate(0.47turn); }
+        .gauge-cover { position: absolute; top: 15px; left: 15px; width: 130px; height: 65px; background: white; border-radius: 130px 130px 0 0; display: flex; align-items: flex-end; justify-content: center; font-size: 20px; font-weight: bold; }
 
-        /* HOME HUB GRID */
-        .hub-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
-        .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; }
-        .btn-quick { background: #f8f9fa; padding: 20px; text-align: center; border-radius: 10px; text-decoration: none; color: var(--azul-mrs); font-weight: bold; transition: 0.3s; border: 1px solid #eee; }
-        .btn-quick i { display: block; font-size: 25px; margin-bottom: 10px; }
-        .btn-quick:hover { background: var(--amarelo-mrs); transform: translateY(-3px); }
+        .obra-card { border-top: 4px solid var(--azul-claro); }
+        .obra-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        
+        /* Barra segmentada do PDF */
+        .status-steps { display: flex; background: #eee; height: 32px; border-radius: 4px; overflow: hidden; position: relative; }
+        .status-fill { position: absolute; height: 100%; background: var(--azul-claro); z-index: 1; transition: 1s; }
+        .step { flex: 1; z-index: 2; border-right: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 9px; color: white; text-align: center; line-height: 1; padding: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
 
     </style>
 </head>
@@ -104,7 +81,7 @@
         </div>
         <ul class="nav-links">
             <li><a onclick="showPage('home')" id="link-home" class="active"><i class="fas fa-home"></i> Início</a></li>
-            <li><a onclick="showPage('medicoes')" id="link-medicoes"><i class="fas fa-ruler"></i> Medições</a></li>
+            <li><a onclick="showPage('medicoes')" id="link-medicoes"><i class="fas fa-ruler-combined"></i> Medições</a></li>
             <li><a onclick="showPage('eventos')" id="link-eventos"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
             <li><a href="#"><i class="fas fa-dollar-sign"></i> Custos</a></li>
             <li><a href="#"><i class="fas fa-users"></i> Pessoas</a></li>
@@ -112,31 +89,59 @@
         </ul>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="main-content">
 
         <!-- PÁGINA: INÍCIO -->
         <div id="home" class="page-content active">
-            <header style="margin-bottom:30px;">
-                <h1 style="color: var(--azul-mrs);">Central de Informações MRS</h1>
-                <p>Status atualizado da Gerência de Obras.</p>
+            <header style="margin-bottom: 25px;">
+                <h1 style="color: var(--azul-mrs);">Central de Informações</h1>
+                <p style="color: #666;">Destaques e acessos rápidos da gerência.</p>
             </header>
+
             <div class="hub-grid">
                 <div class="left-col">
                     <div class="card">
-                        <h2><i class="fas fa-bolt"></i> Acesso Rápido</h2>
+                        <h2><i class="fas fa-link"></i> Acesso Rápido</h2>
                         <div class="quick-grid">
                             <a href="#" class="btn-quick"><i class="fas fa-hard-hat"></i>Obras</a>
-                            <a href="#" class="btn-quick"><i class="fas fa-file-pdf"></i>Normas</a>
-                            <a href="#" class="btn-quick"><i class="fas fa-map"></i>Malha</a>
+                            <a href="#" class="btn-quick"><i class="fas fa-file-invoice"></i>SAP</a>
+                            <a href="#" class="btn-quick"><i class="fas fa-map-marked-alt"></i>Malha</a>
                             <a href="#" class="btn-quick"><i class="fas fa-shield-alt"></i>Segurança</a>
                         </div>
                     </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-newspaper"></i> Notícias Recentes</h2>
+                        <div class="news-item">
+                            <img src="https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" class="news-img">
+                            <div>
+                                <strong style="color:var(--azul-mrs)">Expansão em Minas Gerais</strong>
+                                <p style="font-size: 13px; color:#555; margin-top:4px;">Iniciada nova fase de remodelação no trecho sul, focada em segurança...</p>
+                            </div>
+                        </div>
+                        <div class="news-item">
+                            <img src="https://www.mrs.com.br/wp-content/uploads/2021/07/locomotiva-mrs.jpg" class="news-img">
+                            <div>
+                                <strong style="color:var(--azul-mrs)">Recorde de Produtividade</strong>
+                                <p style="font-size: 13px; color:#555; margin-top:4px;">O mês de Janeiro fechou com 95% das metas de obra atingidas.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="right-col">
                     <div class="card">
-                        <h2><i class="fas fa-bullhorn"></i> Destaque</h2>
-                        <p style="font-size:14px;">Faltam <strong>5 dias</strong> para o fechamento das medições de Fevereiro.</p>
+                        <h2><i class="fas fa-camera"></i> Galeria</h2>
+                        <div class="gallery-grid">
+                            <img src="https://picsum.photos/id/191/150/150">
+                            <img src="https://picsum.photos/id/192/150/150">
+                            <img src="https://picsum.photos/id/193/150/150">
+                            <img src="https://picsum.photos/id/195/150/150">
+                        </div>
+                    </div>
+                    <div class="card" style="background: var(--amarelo-mrs); border:none;">
+                        <h2 style="border:none; margin:0; font-size:14px;">Fechamento de Medição</h2>
+                        <p style="font-size:20px; font-weight:bold; color:var(--azul-mrs)">Faltam 5 Dias</p>
                     </div>
                 </div>
             </div>
@@ -144,58 +149,110 @@
 
         <!-- PÁGINA: MEDIÇÕES -->
         <div id="medicoes" class="page-content">
-            <h1 style="color: var(--azul-mrs); margin-bottom: 20px;">Painel de Medições</h1>
-            <div class="gauge-section">
+            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+                <div>
+                    <h1 style="color: var(--azul-mrs);">Informativo Medições</h1>
+                    <p>Mês de Referência: <strong>JAN/26</strong></p>
+                </div>
+                <div style="text-align:right; font-size:12px; color:#666">Atualizado em: 27/02/2026</div>
+            </header>
+
+            <div class="gauge-container">
                 <div style="text-align:center">
                     <div class="gauge">
-                        <div class="gauge-fill" id="gauge-fill-id" style="transform: translate(-50%, -100%) rotate(0.48turn);"></div>
-                        <div class="gauge-cover">95,3%</div>
+                        <div class="gauge-fill" style="transform: translate(-50%, -100%) rotate(0.476turn);"></div>
+                        <div class="gauge-cover">95,32%</div>
                     </div>
-                    <p style="font-weight:bold; color:var(--azul-mrs); margin-top:10px">RESULTADO GERAL</p>
+                    <p style="font-weight:bold; color:var(--azul-mrs); margin-top:8px">RESULTADO GERÊNCIA</p>
                 </div>
             </div>
+
+            <!-- OBRA 1: REMODELAÇÃO -->
+            <div class="card obra-card">
+                <div class="obra-info">
+                    <span><strong>REMODELAÇÃO</strong> - EPYA (Contrato: 31311/2024)</span>
+                    <span style="color:var(--azul-claro); font-weight:bold">87,5% concluído</span>
+                </div>
+                <div class="status-steps">
+                    <div class="status-fill" style="width: 87.5%;"></div>
+                    <div class="step">Recebida Especialista</div>
+                    <div class="step">Recebida PCE</div>
+                    <div class="step">Lançado SAP</div>
+                    <div class="step">Aprovador 1</div>
+                    <div class="step">Aprovador 2 e 3</div>
+                    <div class="step">Aguardando NF</div>
+                    <div class="step">Enviado RI</div>
+                    <div class="step">Finalizado</div>
+                </div>
+            </div>
+
+            <!-- OBRA 2: CAMPO GRANDE -->
+            <div class="card obra-card">
+                <div class="obra-info">
+                    <span><strong>CAMPO GRANDE</strong> - EPYA (Contrato: 35728/2025)</span>
+                    <span style="color:var(--azul-claro); font-weight:bold">100% concluído</span>
+                </div>
+                <div class="status-steps">
+                    <div class="status-fill" style="width: 100%;"></div>
+                    <div class="step">Recebida Especialista</div>
+                    <div class="step">Recebida PCE</div>
+                    <div class="step">Lançado SAP</div>
+                    <div class="step">Aprovador 1</div>
+                    <div class="step">Aprovador 2 e 3</div>
+                    <div class="step">Aguardando NF</div>
+                    <div class="step">Enviado RI</div>
+                    <div class="step">Finalizado</div>
+                </div>
+            </div>
+
+             <!-- OBRA 3: APARECIDA -->
+             <div class="card obra-card">
+                <div class="obra-info">
+                    <span><strong>APARECIDA</strong> - EPYA (Contrato: 32749/2024)</span>
+                    <span style="color:var(--azul-claro); font-weight:bold">100% concluído</span>
+                </div>
+                <div class="status-steps">
+                    <div class="status-fill" style="width: 100%;"></div>
+                    <div class="step">Recebida Especialista</div>
+                    <div class="step">Recebida PCE</div>
+                    <div class="step">Lançado SAP</div>
+                    <div class="step">Aprovador 1</div>
+                    <div class="step">Aprovador 2 e 3</div>
+                    <div class="step">Aguardando NF</div>
+                    <div class="step">Enviado RI</div>
+                    <div class="step">Finalizado</div>
+                </div>
+            </div>
+
+            <!-- TABELA DE VALORES RESUMIDA -->
             <div class="card">
-                <h2>Status por Obra</h2>
-                <p>Aqui você verá o detalhamento conforme o informativo anterior.</p>
+                <h2><i class="fas fa-coins"></i> Resumo de Valores</h2>
+                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                    <tr style="background:#f8f9fa; border-bottom:2px solid #ddd;">
+                        <th style="padding:10px; text-align:left;">Obra</th>
+                        <th style="padding:10px; text-align:right;">Valor Medido</th>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:10px;">Remodelação</td>
+                        <td style="padding:10px; text-align:right;">R$ 450.000,00</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:10px;">Campo Grande</td>
+                        <td style="padding:10px; text-align:right;">R$ 280.000,00</td>
+                    </tr>
+                    <tr style="font-weight:bold; color:var(--azul-mrs);">
+                        <td style="padding:10px;">TOTAL</td>
+                        <td style="padding:10px; text-align:right;">R$ 730.000,00</td>
+                    </tr>
+                </table>
             </div>
         </div>
 
-        <!-- PÁGINA: EVENTOS -->
+        <!-- PÁGINA: EVENTOS (Simples para manter o exemplo anterior) -->
         <div id="eventos" class="page-content">
-            <header style="margin-bottom:30px;">
-                <h1 style="color: var(--azul-mrs);">Próximos Eventos</h1>
-                <p>Cronograma de Reuniões, Visitas e Marcos de Obra.</p>
-            </header>
-
+            <h1 style="color: var(--azul-mrs); margin-bottom: 20px;">Próximos Eventos</h1>
             <div class="card">
-                <h2>Agenda de Março / 2026</h2>
-                
-                <div class="event-item">
-                    <div class="event-date"><span>05</span><small>Mar</small></div>
-                    <div class="event-info">
-                        <strong>Visita Técnica: Trecho Serra do Mar</strong>
-                        <p><i class="fas fa-clock"></i> 09:00 - Local: Km 120</p>
-                    </div>
-                    <span class="event-tag tag-visita">Visita Técnica</span>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-date"><span>10</span><small>Mar</small></div>
-                    <div class="event-info">
-                        <strong>Reunião Geral de Custos</strong>
-                        <p><i class="fas fa-video"></i> 14:30 - Teams (Online)</p>
-                    </div>
-                    <span class="event-tag tag-reuniao">Reunião</span>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-date"><span>15</span><small>Mar</small></div>
-                    <div class="event-info">
-                        <strong>Entrega da Medição - Campo Grande</strong>
-                        <p><i class="fas fa-exclamation-triangle"></i> Prazo Final Imputação SAP</p>
-                    </div>
-                    <span class="event-tag tag-reuniao" style="background:#ffebee; color:#c62828">Prazo Crítico</span>
-                </div>
+                <p>Agenda de Março carregada com sucesso.</p>
             </div>
         </div>
 
@@ -203,9 +260,12 @@
 
     <script>
         function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            // Esconde todas as seções
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            // Remove destaque dos links
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
 
+            // Ativa a página e o link clicado
             document.getElementById(pageId).classList.add('active');
             document.getElementById('link-' + pageId).classList.add('active');
         }
