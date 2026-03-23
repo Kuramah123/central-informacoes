@@ -214,6 +214,18 @@
         .btn-save:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
         .btn-cancel { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px; }
 
+        /* =========================================
+           POWER BI IFRAME
+        ========================================= */
+        .powerbi-frame { 
+            width: 100%; 
+            height: 800px; /* Você pode ajustar essa altura depois se achar necessário */
+            border: none; 
+            border-radius: 6px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            margin-top: 15px;
+        }
+        
     </style>
 </head>
 <body>
@@ -225,6 +237,7 @@
         </div>
         <ul class="nav-links">
             <li><a onclick="showPage('home')" id="link-home" class="active"><i class="fas fa-home"></i> Início</a></li>
+            <a onclick="showPage('seguranca')" class="btn-hub" style="cursor: pointer;"><i class="fas fa-shield-alt"></i>Segurança</a>
             <li><a onclick="showPage('medicoes')" id="link-medicoes"><i class="fas fa-ruler-combined"></i> Medições</a></li>
             <li><a onclick="showPage('eventos')" id="link-eventos"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
             <li><a onclick="showPage('custos')" id="link-custos"><i class="fas fa-dollar-sign"></i> Custos</a></li>
@@ -608,6 +621,18 @@
             </div>
         </div>
 
+        <div id="seguranca" class="page-content">
+            <h1>Gestão de Segurança</h1>
+            <p class="subtitle">Painéis de CRP, PREVER e Incidentes Pessoais</p>
+
+            <div class="card" style="padding: 10px;">
+                <iframe title="Painel de Segurança GIOFSP" class="powerbi-frame" 
+                    src="https://app.powerbi.com/reportEmbed?reportId=e189fcc9-2738-4b47-a34d-dd32489c4a27&autoAuth=true&ctid=0e36c668-f89c-4391-b4e0-d7a789672100&actionBarEnabled=true" 
+                    allowFullScreen="true">
+                </iframe>
+            </div>
+        </div>
+        
         <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
         <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
