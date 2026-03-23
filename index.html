@@ -7,123 +7,265 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* =========================================
+           CORES OFICIAIS E VARIÁVEIS GERAIS
+        ========================================= */
         :root {
-            --azul-mrs: #00355B;
-            --azul-claro: #0077B6;
-            --amarelo-mrs: #FFCF00;
-            --cinza-fundo: #f4f7f9;
+            --azul-mrs: #1B3255;
+            --amarelo-mrs: #FFCC00;
+            --cinza-fundo: #E5E6E7;
             --branco: #ffffff;
-            --verde-ok: #28a745;
+            --azul-claro: #0093D3;
+            --texto: #6C6D70;
+            --sidebar-width: 260px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { display: flex; background-color: var(--cinza-fundo); min-height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Trebuchet MS', sans-serif; }
+        body { display: flex; background-color: var(--cinza-fundo); min-height: 100vh; color: var(--texto); overflow-x: hidden; }
 
-        /* SIDEBAR */
-        .sidebar { width: 250px; height: 100vh; background: var(--azul-mrs); color: white; position: fixed; z-index: 100; }
-        .logo-box { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--amarelo-mrs); }
-        .logo-box img { width: 100%; max-width: 140px; height: auto; }
+        /* =========================================
+           BARRA LATERAL RETRÁTIL (SIDEBAR)
+        ========================================= */
+        .sidebar { 
+            width: var(--sidebar-width); 
+            height: 100vh; 
+            background: var(--azul-mrs); 
+            color: white; 
+            position: fixed; 
+            z-index: 1000; 
+            transition: 0.4s ease;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar.collapsed { left: calc(-1 * var(--sidebar-width)); }
+
+        .logo-box { background: white; padding: 25px; text-align: center; border-bottom: 5px solid var(--amarelo-mrs); min-height: 100px; display: flex; align-items: center; justify-content: center; }
+        .logo-box img { width: 100%; max-width: 160px; height: auto; }
+
         .nav-links { list-style: none; margin-top: 15px; }
         .nav-links li a { 
-            display: flex; align-items: center; padding: 12px 20px; 
-            color: white; text-decoration: none; cursor: pointer; transition: 0.3s; font-size: 14px;
+            display: flex; align-items: center; padding: 15px 25px; 
+            color: white; text-decoration: none; cursor: pointer; transition: 0.3s; font-size: 15px;
         }
         .nav-links li a:hover, .nav-links li a.active { 
-            color: var(--amarelo-mrs); background: rgba(255,255,255,0.1); border-left: 4px solid var(--amarelo-mrs); 
+            color: var(--amarelo-mrs); background: rgba(255,255,255,0.1); border-left: 5px solid var(--amarelo-mrs); 
         }
-        .nav-links i { margin-right: 12px; width: 20px; text-align: center; }
+        .nav-links i { margin-right: 15px; width: 20px; text-align: center; font-size: 18px; }
 
-        /* CONTEÚDO */
-        .main-content { margin-left: 250px; width: 100%; padding: 30px; }
+        /* =========================================
+           CONTEÚDO PRINCIPAL E ANIMAÇÕES
+        ========================================= */
+        .main-content { 
+            margin-left: var(--sidebar-width); 
+            width: 100%; 
+            padding: 20px 40px 40px 40px; 
+            transition: 0.4s ease;
+        }
+        .main-content.expanded { margin-left: 0; }
+
+        .toggle-btn {
+            background: var(--azul-mrs); color: white; border: none; padding: 10px 15px;
+            border-radius: 4px; cursor: pointer; margin-bottom: 20px; font-size: 18px; transition: 0.2s;
+        }
+        .toggle-btn:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
+
         .page-content { display: none; animation: fadeIn 0.4s; }
         .page-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARDS */
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .card h2 { color: var(--azul-mrs); margin-bottom: 15px; font-size: 17px; border-left: 4px solid var(--amarelo-mrs); padding-left: 10px; display: flex; align-items: center; gap: 8px; }
+        h1 { color: var(--azul-mrs); margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        .subtitle { margin-bottom: 30px; font-size: 14px; color: var(--texto); }
 
-        /* --- PÁGINA INÍCIO --- */
-        .hub-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
-        .btn-quick { background: #f8f9fa; padding: 15px; text-align: center; border-radius: 8px; text-decoration: none; color: var(--azul-mrs); font-weight: bold; transition: 0.3s; border: 1px solid #eee; font-size: 13px; }
-        .btn-quick i { display: block; font-size: 22px; margin-bottom: 8px; }
-        .btn-quick:hover { background: var(--amarelo-mrs); border-color: var(--amarelo-mrs); }
+        .card { background: var(--branco); padding: 25px; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .card h2 { color: var(--azul-mrs); font-size: 18px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; }
+        .card h2::before { content: ''; border-left: 10px solid var(--amarelo-mrs); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-right: 10px; }
 
-        .news-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .news-img { width: 90px; height: 65px; border-radius: 6px; object-fit: cover; }
+        /* =========================================
+           ABA INÍCIO (HUB)
+        ========================================= */
+        .hub-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
+        .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
+        .btn-hub { background: #f9f9f9; padding: 20px; text-align: center; border-radius: 4px; text-decoration: none; color: var(--azul-mrs); font-weight: bold; border: 1px solid #ddd; transition: 0.3s; }
+        .btn-hub i { display: block; font-size: 30px; margin-bottom: 10px; color: var(--azul-mrs); }
+        .btn-hub:hover { background: var(--amarelo-mrs); border-color: var(--amarelo-mrs); transform: translateY(-3px); }
         
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .gallery-grid img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; }
+        .news-item { display: flex; gap: 20px; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .news-img { width: 120px; height: 80px; background: #ddd; border-radius: 4px; object-fit: cover; }
+        .photo-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .photo-gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
 
-        /* --- PÁGINA MEDIÇÕES (ESTILO PDF) --- */
-        .gauge-container { display: flex; justify-content: center; margin-bottom: 25px; }
-        .gauge { position: relative; width: 160px; height: 80px; background: #ddd; border-radius: 160px 160px 0 0; overflow: hidden; }
-        .gauge-fill { position: absolute; top: 100%; left: 50%; width: 160px; height: 160px; background: var(--azul-claro); transform-origin: center top; transition: 1s; transform: translate(-50%, -100%) rotate(0.47turn); }
-        .gauge-cover { position: absolute; top: 15px; left: 15px; width: 130px; height: 65px; background: white; border-radius: 130px 130px 0 0; display: flex; align-items: flex-end; justify-content: center; font-size: 20px; font-weight: bold; }
+        /* =========================================
+           ABA MEDIÇÕES
+        ========================================= */
+        .gauge-wrap { text-align: center; margin-bottom: 40px; }
+        .gauge { position: relative; width: 200px; height: 100px; background: #ddd; border-radius: 200px 200px 0 0; overflow: hidden; margin: 0 auto; }
+        .gauge-fill { position: absolute; top: 100%; left: 50%; width: 200px; height: 200px; background: var(--azul-claro); transform-origin: center top; transition: 1s; transform: translate(-50%, -100%) rotate(0.476turn); }
+        .gauge-cover { position: absolute; top: 20px; left: 20px; width: 160px; height: 80px; background: white; border-radius: 160px 160px 0 0; display: flex; align-items: flex-end; justify-content: center; font-size: 24px; font-weight: bold; color: var(--azul-mrs); }
 
-        .obra-card { border-top: 4px solid var(--azul-claro); }
-        .obra-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-        
-        /* Barra segmentada do PDF */
-        .status-steps { display: flex; background: #eee; height: 32px; border-radius: 4px; overflow: hidden; position: relative; }
+        .obra-item { margin-bottom: 30px; }
+        .status-tracker { display: flex; background: #eee; height: 35px; border-radius: 4px; overflow: hidden; position: relative; border: 1px solid #ddd; margin-top: 8px;}
         .status-fill { position: absolute; height: 100%; background: var(--azul-claro); z-index: 1; transition: 1s; }
-        .step { flex: 1; z-index: 2; border-right: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 9px; color: white; text-align: center; line-height: 1; padding: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .step-label { flex: 1; z-index: 2; border-right: 1px solid white; display: flex; align-items: center; justify-content: center; font-size: 9px; color: white; text-align: center; padding: 2px; text-shadow: 1px 1px 1px rgba(0,0,0,0.4); }
+
+        .financeiro-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .financeiro-table th { background: var(--azul-mrs); color: white; padding: 12px; text-align: left; font-size: 13px; }
+        .financeiro-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; color: #333; }
+        .total-row { background: #f8f9fa; font-weight: bold; color: var(--azul-mrs); }
+
+        /* =========================================
+           ABA PESSOAS (ORGANOGRAMA SAP/SUCCESSFACTORS)
+        ========================================= */
+        .org-wrapper {
+            width: 100%;
+            overflow-x: auto; /* Permite rolagem horizontal se a tela for pequena */
+            padding: 20px 0 60px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* Conectores CSS (A mágica da Árvore) */
+        .org-tree ul {
+            padding-top: 20px; 
+            position: relative;
+            display: flex; 
+            justify-content: center; 
+            gap: 20px;
+            list-style-type: none; 
+            margin: 0; 
+            padding-left: 0;
+        }
+        .org-tree li {
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+        }
+        /* Linhas horizontais superiores */
+        .org-tree li::before, .org-tree li::after {
+            content: '';
+            position: absolute; top: 0; right: 50%;
+            border-top: 1px solid #a0aab5;
+            width: 50%; height: 20px;
+        }
+        .org-tree li::after {
+            right: auto; left: 50%;
+            border-left: 1px solid #a0aab5;
+        }
+        /* Remove conectores de elementos únicos */
+        .org-tree li:only-child::after, .org-tree li:only-child::before { display: none; }
+        .org-tree li:only-child { padding-top: 0; }
+        /* Remove bordas extremas */
+        .org-tree li:first-child::before, .org-tree li:last-child::after { border: 0 none; }
+        /* Adiciona curvas nas pontas */
+        .org-tree li:last-child::before { border-right: 1px solid #a0aab5; border-radius: 0 4px 0 0; }
+        .org-tree li:first-child::after { border-radius: 4px 0 0 0; }
+        /* Linha descendo do pai */
+        .org-tree ul ul::before {
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            border-left: 1px solid #a0aab5;
+            width: 0; height: 20px;
+        }
+
+        /* Estilo dos Cartões (Cards do Organograma) */
+        .sf-card {
+            background: #ffffff;
+            border: 1px solid #d3d9df;
+            border-radius: 6px;
+            padding: 12px;
+            width: 280px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            text-align: left;
+            transition: box-shadow 0.2s, border-color 0.2s;
+            margin: 0 auto;
+        }
+        .sf-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-color: var(--azul-claro); }
+        
+        .sf-avatar {
+            width: 45px; height: 45px; border-radius: 50%; flex-shrink: 0; overflow: hidden;
+            background: #e9ecef; display: flex; align-items: center; justify-content: center;
+        }
+        .sf-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .sf-details { flex-grow: 1; overflow: hidden; }
+        .sf-name { font-size: 11px; font-weight: bold; color: var(--azul-mrs); line-height: 1.2; margin-bottom: 2px; text-transform: uppercase; }
+        .sf-role { font-size: 10px; color: #666; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sf-count { font-size: 10px; font-weight: bold; color: #333; margin-top: 2px; }
+        .sf-icon { color: #a0aab5; font-size: 16px; margin-left: 5px; }
+
+        /* Grids para agrupar as pessoas na mesma linha (Igual à imagem) */
+        .sf-grid-18 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .sf-grid-7 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
 
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <!-- BARRA LATERAL -->
+    <aside class="sidebar" id="sidebar">
         <div class="logo-box">
-            <img src="https://logodownload.org/wp-content/uploads/2018/09/mrs-logistica-logo.png" alt="MRS">
+            <!-- Link Estável da Wikipedia -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/MRS_Log%C3%ADstica.svg/512px-MRS_Log%C3%ADstica.svg.png" alt="MRS">
         </div>
         <ul class="nav-links">
             <li><a onclick="showPage('home')" id="link-home" class="active"><i class="fas fa-home"></i> Início</a></li>
             <li><a onclick="showPage('medicoes')" id="link-medicoes"><i class="fas fa-ruler-combined"></i> Medições</a></li>
             <li><a onclick="showPage('eventos')" id="link-eventos"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
-            <li><a href="#"><i class="fas fa-dollar-sign"></i> Custos</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> Pessoas</a></li>
-            <li><a href="#"><i class="fas fa-bullseye"></i> Metas</a></li>
+            <li><a onclick="showPage('custos')" id="link-custos"><i class="fas fa-dollar-sign"></i> Custos</a></li>
+            <li><a onclick="showPage('pessoas')" id="link-pessoas"><i class="fas fa-users"></i> Pessoas</a></li>
+            <li><a onclick="showPage('metas')" id="link-metas"><i class="fas fa-bullseye"></i> Metas</a></li>
         </ul>
     </aside>
 
-    <main class="main-content">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content" id="main-content">
+        <!-- Botão Hambúrguer -->
+        <button class="toggle-btn" onclick="toggleSidebar()" title="Recolher/Expandir Menu"><i class="fas fa-bars"></i></button>
 
-        <!-- PÁGINA: INÍCIO -->
+        <!-- =========================================
+             ABA 1: INÍCIO (HUB) 
+        ========================================= -->
         <div id="home" class="page-content active">
-            <header style="margin-bottom: 25px;">
-                <h1 style="color: var(--azul-mrs);">Central de Informações</h1>
-                <p style="color: #666;">Destaques e acessos rápidos da gerência.</p>
-            </header>
+            <h1>Central de Informações MRS</h1>
+            <p class="subtitle">Gestão Estratégica - Gerência de Implantação de Obras SP</p>
 
             <div class="hub-grid">
                 <div class="left-col">
                     <div class="card">
-                        <h2><i class="fas fa-link"></i> Acesso Rápido</h2>
+                        <h2>Acesso Rápido</h2>
                         <div class="quick-grid">
-                            <a href="#" class="btn-quick"><i class="fas fa-hard-hat"></i>Obras</a>
-                            <a href="#" class="btn-quick"><i class="fas fa-file-invoice"></i>SAP</a>
-                            <a href="#" class="btn-quick"><i class="fas fa-map-marked-alt"></i>Malha</a>
-                            <a href="#" class="btn-quick"><i class="fas fa-shield-alt"></i>Segurança</a>
+                            <a href="#" class="btn-hub"><i class="fas fa-hard-hat"></i>Obras</a>
+                            <a href="#" class="btn-hub"><i class="fas fa-file-invoice"></i>SAP</a>
+                            <a href="#" class="btn-hub"><i class="fas fa-train"></i>Malha</a>
+                            <a href="#" class="btn-hub"><i class="fas fa-shield-alt"></i>Segurança</a>
                         </div>
                     </div>
 
                     <div class="card">
-                        <h2><i class="fas fa-newspaper"></i> Notícias Recentes</h2>
+                        <h2>Notícias e Comunicados</h2>
                         <div class="news-item">
                             <img src="https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" class="news-img">
                             <div>
-                                <strong style="color:var(--azul-mrs)">Expansão em Minas Gerais</strong>
-                                <p style="font-size: 13px; color:#555; margin-top:4px;">Iniciada nova fase de remodelação no trecho sul, focada em segurança...</p>
+                                <strong style="color:var(--azul-mrs)">Avanço na Remodelação de Trechos</strong>
+                                <p style="font-size: 13px; margin-top:5px;">As obras de revitalização da malha paulista atingiram novo marco de eficiência neste semestre...</p>
                             </div>
                         </div>
                         <div class="news-item">
                             <img src="https://www.mrs.com.br/wp-content/uploads/2021/07/locomotiva-mrs.jpg" class="news-img">
                             <div>
-                                <strong style="color:var(--azul-mrs)">Recorde de Produtividade</strong>
-                                <p style="font-size: 13px; color:#555; margin-top:4px;">O mês de Janeiro fechou com 95% das metas de obra atingidas.</p>
+                                <strong style="color:var(--azul-mrs)">Novo Padrão de Medições JAN/26</strong>
+                                <p style="font-size: 13px; margin-top:5px;">O informativo de medições agora conta com detalhamento por etapa de aprovação no SAP.</p>
                             </div>
                         </div>
                     </div>
@@ -131,143 +273,293 @@
 
                 <div class="right-col">
                     <div class="card">
-                        <h2><i class="fas fa-camera"></i> Galeria</h2>
-                        <div class="gallery-grid">
-                            <img src="https://picsum.photos/id/191/150/150">
-                            <img src="https://picsum.photos/id/192/150/150">
-                            <img src="https://picsum.photos/id/193/150/150">
-                            <img src="https://picsum.photos/id/195/150/150">
+                        <h2>Galeria de Fotos</h2>
+                        <div class="photo-gallery">
+                            <img src="https://picsum.photos/id/191/200/200">
+                            <img src="https://picsum.photos/id/192/200/200">
+                            <img src="https://picsum.photos/id/193/200/200">
+                            <img src="https://picsum.photos/id/195/200/200">
                         </div>
                     </div>
-                    <div class="card" style="background: var(--amarelo-mrs); border:none;">
-                        <h2 style="border:none; margin:0; font-size:14px;">Fechamento de Medição</h2>
-                        <p style="font-size:20px; font-weight:bold; color:var(--azul-mrs)">Faltam 5 Dias</p>
+                    <div class="card" style="border-left: 5px solid var(--amarelo-mrs);">
+                        <p style="font-size: 12px; font-weight: bold; color: var(--azul-mrs);">STATUS DO MÊS</p>
+                        <p style="font-size: 22px; font-weight: bold; margin-top:5px;">95,3% Medido</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- PÁGINA: MEDIÇÕES -->
+        <!-- =========================================
+             ABA 2: MEDIÇÕES 
+        ========================================= -->
         <div id="medicoes" class="page-content">
-            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-                <div>
-                    <h1 style="color: var(--azul-mrs);">Informativo Medições</h1>
-                    <p>Mês de Referência: <strong>JAN/26</strong></p>
-                </div>
-                <div style="text-align:right; font-size:12px; color:#666">Atualizado em: 27/02/2026</div>
-            </header>
+            <h1>Informativo Medições</h1>
+            <p class="subtitle">Referência: JAN/26 | Atualizado em: 27/02/2026</p>
 
-            <div class="gauge-container">
-                <div style="text-align:center">
-                    <div class="gauge">
-                        <div class="gauge-fill" style="transform: translate(-50%, -100%) rotate(0.476turn);"></div>
-                        <div class="gauge-cover">95,32%</div>
-                    </div>
-                    <p style="font-weight:bold; color:var(--azul-mrs); margin-top:8px">RESULTADO GERÊNCIA</p>
+            <div class="gauge-wrap">
+                <div class="gauge">
+                    <div class="gauge-fill"></div>
+                    <div class="gauge-cover">95,32%</div>
                 </div>
+                <p style="font-weight:bold; color:var(--azul-mrs); margin-top:10px;">RESULTADO GERAL GERÊNCIA</p>
             </div>
 
-            <!-- OBRA 1: REMODELAÇÃO -->
-            <div class="card obra-card">
-                <div class="obra-info">
-                    <span><strong>REMODELAÇÃO</strong> - EPYA (Contrato: 31311/2024)</span>
-                    <span style="color:var(--azul-claro); font-weight:bold">87,5% concluído</span>
-                </div>
-                <div class="status-steps">
-                    <div class="status-fill" style="width: 87.5%;"></div>
-                    <div class="step">Recebida Especialista</div>
-                    <div class="step">Recebida PCE</div>
-                    <div class="step">Lançado SAP</div>
-                    <div class="step">Aprovador 1</div>
-                    <div class="step">Aprovador 2 e 3</div>
-                    <div class="step">Aguardando NF</div>
-                    <div class="step">Enviado RI</div>
-                    <div class="step">Finalizado</div>
-                </div>
-            </div>
-
-            <!-- OBRA 2: CAMPO GRANDE -->
-            <div class="card obra-card">
-                <div class="obra-info">
-                    <span><strong>CAMPO GRANDE</strong> - EPYA (Contrato: 35728/2025)</span>
-                    <span style="color:var(--azul-claro); font-weight:bold">100% concluído</span>
-                </div>
-                <div class="status-steps">
-                    <div class="status-fill" style="width: 100%;"></div>
-                    <div class="step">Recebida Especialista</div>
-                    <div class="step">Recebida PCE</div>
-                    <div class="step">Lançado SAP</div>
-                    <div class="step">Aprovador 1</div>
-                    <div class="step">Aprovador 2 e 3</div>
-                    <div class="step">Aguardando NF</div>
-                    <div class="step">Enviado RI</div>
-                    <div class="step">Finalizado</div>
-                </div>
-            </div>
-
-             <!-- OBRA 3: APARECIDA -->
-             <div class="card obra-card">
-                <div class="obra-info">
-                    <span><strong>APARECIDA</strong> - EPYA (Contrato: 32749/2024)</span>
-                    <span style="color:var(--azul-claro); font-weight:bold">100% concluído</span>
-                </div>
-                <div class="status-steps">
-                    <div class="status-fill" style="width: 100%;"></div>
-                    <div class="step">Recebida Especialista</div>
-                    <div class="step">Recebida PCE</div>
-                    <div class="step">Lançado SAP</div>
-                    <div class="step">Aprovador 1</div>
-                    <div class="step">Aprovador 2 e 3</div>
-                    <div class="step">Aguardando NF</div>
-                    <div class="step">Enviado RI</div>
-                    <div class="step">Finalizado</div>
-                </div>
-            </div>
-
-            <!-- TABELA DE VALORES RESUMIDA -->
             <div class="card">
-                <h2><i class="fas fa-coins"></i> Resumo de Valores</h2>
-                <table style="width:100%; border-collapse:collapse; font-size:14px;">
-                    <tr style="background:#f8f9fa; border-bottom:2px solid #ddd;">
-                        <th style="padding:10px; text-align:left;">Obra</th>
-                        <th style="padding:10px; text-align:right;">Valor Medido</th>
-                    </tr>
-                    <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:10px;">Remodelação</td>
-                        <td style="padding:10px; text-align:right;">R$ 450.000,00</td>
-                    </tr>
-                    <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:10px;">Campo Grande</td>
-                        <td style="padding:10px; text-align:right;">R$ 280.000,00</td>
-                    </tr>
-                    <tr style="font-weight:bold; color:var(--azul-mrs);">
-                        <td style="padding:10px;">TOTAL</td>
-                        <td style="padding:10px; text-align:right;">R$ 730.000,00</td>
-                    </tr>
+                <h2>Status por Obra</h2>
+
+                <div class="obra-item">
+                    <div style="display:flex; justify-content:space-between; font-size:14px;">
+                        <strong>REMODELAÇÃO (Contrato: 31311/2024)</strong>
+                        <span style="color:var(--azul-claro); font-weight:bold;">87,5% concluído</span>
+                    </div>
+                    <div class="status-tracker">
+                        <div class="status-fill" style="width: 87.5%;"></div>
+                        <div class="step-label">Recebida Esp.</div><div class="step-label">Recebida PCE</div>
+                        <div class="step-label">Lançado SAP</div><div class="step-label">Aprovador 1</div>
+                        <div class="step-label">Aprovador 2/3</div><div class="step-label">Aguardando NF</div>
+                        <div class="step-label">Enviado RI</div><div class="step-label">Finalizado</div>
+                    </div>
+                </div>
+
+                <div class="obra-item">
+                    <div style="display:flex; justify-content:space-between; font-size:14px;">
+                        <strong>CAMPO GRANDE (Contrato: 35728/2025)</strong>
+                        <span style="color:var(--azul-claro); font-weight:bold;">100% concluído</span>
+                    </div>
+                    <div class="status-tracker">
+                        <div class="status-fill" style="width: 100%;"></div>
+                        <div class="step-label">Recebida Esp.</div><div class="step-label">Recebida PCE</div>
+                        <div class="step-label">Lançado SAP</div><div class="step-label">Aprovador 1</div>
+                        <div class="step-label">Aprovador 2/3</div><div class="step-label">Aguardando NF</div>
+                        <div class="step-label">Enviado RI</div><div class="step-label">Finalizado</div>
+                    </div>
+                </div>
+                
+                <div class="obra-item">
+                    <div style="display:flex; justify-content:space-between; font-size:14px;">
+                        <strong>APARECIDA (Contrato: 32749/2024)</strong>
+                        <span style="color:var(--azul-claro); font-weight:bold;">100% concluído</span>
+                    </div>
+                    <div class="status-tracker">
+                        <div class="status-fill" style="width: 100%;"></div>
+                        <div class="step-label">Recebida Esp.</div><div class="step-label">Recebida PCE</div>
+                        <div class="step-label">Lançado SAP</div><div class="step-label">Aprovador 1</div>
+                        <div class="step-label">Aprovador 2/3</div><div class="step-label">Aguardando NF</div>
+                        <div class="step-label">Enviado RI</div><div class="step-label">Finalizado</div>
+                    </div>
+                </div>
+
+                <div class="obra-item">
+                    <div style="display:flex; justify-content:space-between; font-size:14px;">
+                        <strong>CCO (Contrato: 38551/2025)</strong>
+                        <span style="color:var(--azul-claro); font-weight:bold;">100% concluído</span>
+                    </div>
+                    <div class="status-tracker">
+                        <div class="status-fill" style="width: 100%;"></div>
+                        <div class="step-label">Recebida Esp.</div><div class="step-label">Recebida PCE</div>
+                        <div class="step-label">Lançado SAP</div><div class="step-label">Aprovador 1</div>
+                        <div class="step-label">Aprovador 2/3</div><div class="step-label">Aguardando NF</div>
+                        <div class="step-label">Enviado RI</div><div class="step-label">Finalizado</div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top:40px;"><i class="fas fa-coins"></i> Resumo Financeiro do Mês</h2>
+                <table class="financeiro-table">
+                    <thead>
+                        <tr>
+                            <th>PROJETO / CONTRATO</th>
+                            <th>VALOR DA MEDIÇÃO</th>
+                            <th>STATUS FINANCEIRO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>REMODELAÇÃO (31311/2024)</td><td>R$ 450.320,00</td><td><span style="color:green">● Aprovado</span></td></tr>
+                        <tr><td>CAMPO GRANDE (35728/2025)</td><td>R$ 280.150,00</td><td><span style="color:green">● Aprovado</span></td></tr>
+                        <tr><td>APARECIDA (32749/2024)</td><td>R$ 120.000,00</td><td><span style="color:#d9534f">● Pendente NF</span></td></tr>
+                        <tr><td>CCO (38551/2025)</td><td>R$ 90.000,00</td><td><span style="color:green">● Aprovado</span></td></tr>
+                        <tr class="total-row"><td>VALOR TOTAL MEDIDO (JAN/26)</td><td>R$ 940.470,00</td><td></td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- PÁGINA: EVENTOS (Simples para manter o exemplo anterior) -->
-        <div id="eventos" class="page-content">
-            <h1 style="color: var(--azul-mrs); margin-bottom: 20px;">Próximos Eventos</h1>
-            <div class="card">
-                <p>Agenda de Março carregada com sucesso.</p>
+        <!-- =========================================
+             ABA 3: PESSOAS (ORGANOGRAMA SAP) 
+        ========================================= -->
+        <div id="pessoas" class="page-content">
+            <h1>Nossa Gente</h1>
+            <p class="subtitle">Organograma da Gerência de Infraestrutura SP</p>
+            
+            <div class="org-wrapper">
+                <div class="org-tree">
+                    <ul>
+                        <li>
+                            <!-- LÍDER -->
+                            <div class="sf-card">
+                                <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Vinicius+Nascimento&background=1B3255&color=fff&size=100"></div>
+                                <div class="sf-details">
+                                    <div class="sf-name">VINICIUS OLIVEIRA NASCIMENTO</div>
+                                    <div class="sf-role">GER INFRA-ESTRUTURA</div>
+                                    <div class="sf-count">19 / 121</div>
+                                </div>
+                                <div class="sf-icon"><i class="far fa-address-card"></i></div>
+                            </div>
+                            
+                            <ul>
+                                <li>
+                                    <!-- TIME DIRETO (GRID DE 18 PESSOAS) -->
+                                    <div class="sf-grid-18">
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Alcir+Souza&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">ALCIR DONIZETE DE SOUZA</div><div class="sf-role">COORD DE MANUT DA MALHA</div><div class="sf-count">33 / 33</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Amanda+Souza&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">AMANDA DO PRADO GALHARDO SOUZA</div><div class="sf-role">AN INFRA ESTRUTURA PL</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Ana+Machado&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">ANA CLARA FERRARESE MACHADO</div><div class="sf-role">ESPEC INFRA III</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Ana+Hygino&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">ANA LUIZA DE FREITAS HYGINO</div><div class="sf-role">AN FERROVIARIO</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Carjos+Rodrigues&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">CARJOS FANAN SOARES RODRIGUES</div><div class="sf-role">COORD DE MANUT DA MALHA</div><div class="sf-count">31 / 31</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Clemente+Neto&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">CLEMENTE PASSOS GARCIA NETO</div><div class="sf-role">ESPEC INFRA III</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Danilo+Silva&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">DANILO COSTA DA SILVA</div><div class="sf-role">ESPEC INFRA IV</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Eduardo+Silva&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">EDUARDO FRANCISCO DA SILVA</div><div class="sf-role">ESPEC INFRA III</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Elvis+Silva&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">ELVIS PRESLEY RODRIGUES DA SILVA</div><div class="sf-role">ESPEC FERROVIARIO I</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Gabriella+Carvalho&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">GABRIELLA DE CARVALHO...</div><div class="sf-role">ASSIST OPERACIONAL MALHA</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Javan+Junior&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">JAVAN PINTO COSTA JUNIOR</div><div class="sf-role">ESPEC FERROVIARIO II</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Larissa+Ferreira&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">LARISSA FREITAS FERREIRA</div><div class="sf-role">AN INFRA ESTRUTURA PL</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Lucas+Mariani&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">LUCAS MARRA RODRIGUES MARIANI...</div><div class="sf-role">ESPEC INFRA IV</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Luiz+Vieira&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">LUIZ FERNANDO ANTONYAN VIEIRA</div><div class="sf-role">COORD DE MANUT DA MALHA</div><div class="sf-count">31 / 31</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Pedro+Santos&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">PEDRO MORAES GERO SANTOS</div><div class="sf-role">ESTAGIARIO SUP</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Philypp+Pereira&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">PHILYPP GUTIERES DA SILVA PEREIRA</div><div class="sf-role">ESPEC FERROVIARIO II</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Victor+Gurjao&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">VICTOR ALEXANDRE MACEDO GURJAO...</div><div class="sf-role">TRAINEE</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                        <div class="sf-card">
+                                            <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=William+Bernardelli&background=e9ecef&color=1B3255"></div>
+                                            <div class="sf-details"><div class="sf-name">WILLIAM DE ARAUJO BERNARDELLI</div><div class="sf-role">ESPEC FERROVIARIO I</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li>
+                                    <!-- SUB-LÍDER: THIAGO E TIME -->
+                                    <div class="sf-card">
+                                        <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Thiago+Mathias&background=e9ecef&color=1B3255"></div>
+                                        <div class="sf-details">
+                                            <div class="sf-name">THIAGO MATHIAS ALMEIDA SANTOS DE...</div>
+                                            <div class="sf-role">COORD INFRA-ESTRUTURA</div>
+                                            <div class="sf-count">7 / 7</div>
+                                        </div>
+                                        <div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <!-- TIME DO THIAGO (GRID DE 7 PESSOAS) -->
+                                            <div class="sf-grid-7">
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Aline+Assis&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">ALINE MAIA DE ASSIS</div><div class="sf-role">AN FERROVIARIO</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Amanda+Borges&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">AMANDA FRANCIELLI MONTEIRO BORGES</div><div class="sf-role">AN INFRA ESTRUTURA</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Fabio+Nascimento&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">FABIO PEREIRA DO NASCIMENTO</div><div class="sf-role">ESPEC INFRA I</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Flavio+Matos&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">FLAVIO GONCALVES DE MATOS</div><div class="sf-role">AN INFRA ESTRUTURA</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Gabriel+Oliveira&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">GABRIEL GEORGETTI PAES DE OLIVEIRA</div><div class="sf-role">AN INFRA ESTRUTURA</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Joao+Pavani&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">JOAO FLAVIO DOCCOSSE PAVANI</div><div class="sf-role">ESPEC INFRA IV</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                                <div class="sf-card">
+                                                    <div class="sf-avatar"><img src="https://ui-avatars.com/api/?name=Rodrigo+Lazaroto&background=e9ecef&color=1B3255"></div>
+                                                    <div class="sf-details"><div class="sf-name">RODRIGO EDUARDO LAZAROTO</div><div class="sf-role">ESPEC INFRA IV</div></div><div class="sf-icon"><i class="far fa-address-card"></i></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+        <!-- =========================================
+             OUTRAS ABAS 
+        ========================================= -->
+        <div id="eventos" class="page-content"><h1>Eventos</h1><div class="card"><p>Agenda em desenvolvimento.</p></div></div>
+        <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
+        <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
     </main>
 
     <script>
+        // Lógica de navegação entre as páginas
         function showPage(pageId) {
-            // Esconde todas as seções
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            // Remove destaque dos links
             document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-
-            // Ativa a página e o link clicado
             document.getElementById(pageId).classList.add('active');
             document.getElementById('link-' + pageId).classList.add('active');
+        }
+
+        // Lógica do botão Retrátil da barra lateral
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('main-content').classList.toggle('expanded');
         }
     </script>
 </body>
