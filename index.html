@@ -609,7 +609,7 @@
 
         window.addEventListener('load', carregarPlanilha);
 
-        // ==========================================
+// ==========================================
         // LEITOR AUTOMÁTICO - OCORRÊNCIAS (EXCEL)
         // ==========================================
         async function carregarOcorrencias() {
@@ -629,15 +629,30 @@
                     
                     let textoLinha = linhas[i].toLowerCase();
                     
-                    // Ignora o cabeçalho do Excel
-                    if (textoLinha.includes('gravidade') || textoLinha.includes('descrição da ocorrência') || textoLinha.includes('controle de ocorrências')) {
+                    // NOVA REGRA: Ignora o cabeçalho e os rodapés do seu Excel
+                    if (
+                        textoLinha.includes('gravidade') || 
+                        textoLinha.includes('descrição da ocorrência') || 
+                        textoLinha.includes('controle de ocorrências') ||
+                        textoLinha.includes('horas impactadas de facto') ||
+                        textoLinha.includes('elaborado por')
+                    ) {
                         continue; 
                     }
 
                     const colunas = linhas[i].split(/[,;]/); 
 
-                    // Garante que leu as 6 colunas
-                    if (colunas.length < 5) continue;
+                    // NOVA REGRA: Verifica se a linha exportada pelo Excel não está cheia de espaços em branco vazios
+                    let linhaTotalmenteVazia = true;
+                    for(let c = 0; c < colunas.length; c++) {
+                        if(colunas[c].replace(/(^"|"$)/g, '').trim() !== '') {
+                            linhaTotalmenteVazia = false;
+                            break;
+                        }
+                    }
+                    
+                    // Se não tiver colunas suficientes ou se for uma linha vazia do Excel, ele pula
+                    if (linhaTotalmenteVazia || colunas.length < 5) continue;
 
                     let tr = document.createElement('tr');
 
