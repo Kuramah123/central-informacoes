@@ -189,6 +189,38 @@
 
         .update-bar { background: #fff3cd; color: #856404; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
         .btn-update { background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        /* =========================================
+           ABA EVENTOS E AGENDA
+        ========================================= */
+        .agenda-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        
+        .event-card { display: flex; background: white; border: 1px solid #eee; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; margin-bottom: 15px; }
+        .event-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-color: var(--azul-claro); }
+        
+        .event-date-box { background: var(--azul-mrs); width: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; flex-shrink: 0; }
+        .event-date-box .dia { font-size: 32px; font-weight: bold; line-height: 1; color: var(--amarelo-mrs); }
+        .event-date-box .mes { font-size: 14px; text-transform: uppercase; font-weight: bold; color: white; margin-top: 5px; }
+        
+        .event-info { padding: 15px 20px; flex-grow: 1; display:flex; flex-direction: column; justify-content: center;}
+        .event-info h3 { color: var(--azul-mrs); margin-bottom: 8px; font-size: 18px; }
+        .event-info p { font-size: 13px; color: #555; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .event-info i { color: var(--azul-claro); width: 16px; text-align: center; }
+        .btn-delete-event { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 16px; padding: 10px; transition: 0.2s; }
+        .btn-delete-event:hover { color: #a71d2a; transform: scale(1.1); }
+
+        /* Modal Novo Evento */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-box { background: white; padding: 30px; border-radius: 8px; width: 100%; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-box h2 { color: var(--azul-mrs); margin-bottom: 20px; border-left: 5px solid var(--amarelo-mrs); padding-left: 10px; text-transform: uppercase; font-size: 18px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; color: var(--azul-mrs); margin-bottom: 5px; text-transform: uppercase; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; font-family: inherit; }
+        .form-row { display: flex; gap: 15px; }
+        .btn-save { background: var(--azul-mrs); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-save:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
+        .btn-cancel { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px; }
+        
     </style>
 </head>
 <body>
@@ -529,7 +561,66 @@
         <!-- =========================================
              OUTRAS ABAS 
         ========================================= -->
-        <div id="eventos" class="page-content"><h1>Eventos</h1><div class="card"><p>Agenda em desenvolvimento.</p></div></div>
+        <!-- =========================================
+             ABA EVENTOS E AGENDA
+        ========================================= -->
+        <div id="eventos" class="page-content">
+            <div class="agenda-header">
+                <div>
+                    <h1>Agenda Corporativa</h1>
+                    <p class="subtitle">Calendário de reuniões, visitas e marcos (2026)</p>
+                </div>
+                <button class="btn-update" onclick="abrirModal()"><i class="fas fa-plus"></i> Novo Evento</button>
+            </div>
+
+            <!-- Lista onde os eventos vão aparecer -->
+            <div id="lista-eventos">
+                <!-- Javascript injeta os eventos aqui -->
+            </div>
+
+            <!-- Janela Modal (Formulário Oculto) -->
+            <div id="modal-evento" class="modal-overlay">
+                <div class="modal-box">
+                    <h2>Adicionar Novo Evento</h2>
+                    
+                    <div class="form-group">
+                        <label>Título do Evento</label>
+                        <input type="text" id="ev-titulo" class="form-control" placeholder="Ex: Reunião de Alinhamento">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group" style="width: 50%;">
+                            <label>Data</label>
+                            <input type="date" id="ev-data" class="form-control">
+                        </div>
+                        <div class="form-group" style="width: 50%;">
+                            <label>Hora</label>
+                            <input type="time" id="ev-hora" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Local / Link da Reunião</label>
+                        <input type="text" id="ev-local" class="form-control" placeholder="Ex: Teams ou KM 301">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Organizador(a)</label>
+                        <input type="text" id="ev-org" class="form-control" placeholder="Nome de quem está marcando">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Convidados</label>
+                        <input type="text" id="ev-convidados" class="form-control" placeholder="Ex: Equipe de Obras, Seg. do Trabalho">
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 25px;">
+                        <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+                        <button class="btn-save" onclick="salvarEvento()"><i class="fas fa-save"></i> Salvar Evento</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
         <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
@@ -701,6 +792,109 @@
 
         // Adiciona a leitura de ocorrências para rodar junto com a página
         window.addEventListener('load', carregarOcorrencias);
+
+// ==========================================
+        // LÓGICA DA AGENDA (EVENTOS)
+        // ==========================================
+        
+        // Meses em português para desenhar na "folhinha" do calendário
+        const mesesNomes =["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+
+        // Se já tiver eventos no navegador, ele carrega. Se não, cria dois de exemplo.
+        let agendaMRS = JSON.parse(localStorage.getItem('agendaMRS')) ||[
+            { id: 1, titulo: "Reunião de Alinhamento - Obras SP", data: "2026-03-25", hora: "14:00", local: "Teams (Online)", org: "Vinicius Nascimento", convidados: "Coordenadores e Especialistas" },
+            { id: 2, titulo: "Visita Técnica - Demolição", data: "2026-04-10", hora: "09:00", local: "KM 301 - FADFRA", org: "Amanda Borges", convidados: "Equipe de Segurança, CCO" }
+        ];
+
+        function renderizarAgenda() {
+            const container = document.getElementById('lista-eventos');
+            container.innerHTML = '';
+
+            // Ordena os eventos por data antes de exibir
+            agendaMRS.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+            agendaMRS.forEach(evento => {
+                // Quebra a data para pegar dia e mês (Ex: 2026-03-25)
+                let dataParts = evento.data.split('-');
+                let dia = dataParts[2] || '--';
+                let mesIndex = dataParts[1] ? parseInt(dataParts[1]) - 1 : 0;
+                let mesNome = mesesNomes[mesIndex] || '--';
+
+                let card = document.createElement('div');
+                card.className = 'event-card';
+                card.innerHTML = `
+                    <div class="event-date-box">
+                        <span class="dia">${dia}</span>
+                        <span class="mes">${mesNome}</span>
+                    </div>
+                    <div class="event-info">
+                        <h3>${evento.titulo}</h3>
+                        <p><i class="fas fa-clock"></i> ${evento.data.split('-').reverse().join('/')} às ${evento.hora}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Local:</strong> ${evento.local}</p>
+                        <p><i class="fas fa-user-tie"></i> <strong>Organizador:</strong> ${evento.org}</p>
+                        <p><i class="fas fa-users"></i> <strong>Convidados:</strong> ${evento.convidados}</p>
+                    </div>
+                    <div style="padding: 15px; display:flex; align-items:center;">
+                        <button class="btn-delete-event" onclick="deletarEvento(${evento.id})" title="Excluir Evento"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Funções de Abrir e Fechar Janela
+        function abrirModal() { document.getElementById('modal-evento').style.display = 'flex'; }
+        function fecharModal() { document.getElementById('modal-evento').style.display = 'none'; limparFormulario(); }
+
+        function limparFormulario() {
+            document.getElementById('ev-titulo').value = '';
+            document.getElementById('ev-data').value = '';
+            document.getElementById('ev-hora').value = '';
+            document.getElementById('ev-local').value = '';
+            document.getElementById('ev-org').value = '';
+            document.getElementById('ev-convidados').value = '';
+        }
+
+        function salvarEvento() {
+            let titulo = document.getElementById('ev-titulo').value;
+            let data = document.getElementById('ev-data').value;
+            let hora = document.getElementById('ev-hora').value;
+            let local = document.getElementById('ev-local').value;
+            let org = document.getElementById('ev-org').value;
+            let convidados = document.getElementById('ev-convidados').value;
+
+            if(!titulo || !data || !hora) {
+                alert("Por favor, preencha pelo menos o Título, Data e Hora!");
+                return;
+            }
+
+            let novoEvento = {
+                id: Date.now(), // Gera um ID único
+                titulo: titulo,
+                data: data,
+                hora: hora,
+                local: local || 'A definir',
+                org: org || 'Não informado',
+                convidados: convidados || 'Todos'
+            };
+
+            agendaMRS.push(novoEvento); // Adiciona na lista
+            localStorage.setItem('agendaMRS', JSON.stringify(agendaMRS)); // Salva no navegador
+            
+            fecharModal();
+            renderizarAgenda(); // Atualiza a tela
+        }
+
+        function deletarEvento(id) {
+            if(confirm("Tem certeza que deseja excluir este evento?")) {
+                agendaMRS = agendaMRS.filter(ev => ev.id !== id);
+                localStorage.setItem('agendaMRS', JSON.stringify(agendaMRS));
+                renderizarAgenda();
+            }
+        }
+
+        // Carrega a agenda ao abrir o site
+        window.addEventListener('load', renderizarAgenda);
         
     </script>
 </body>
