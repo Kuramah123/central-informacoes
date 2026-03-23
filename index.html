@@ -466,16 +466,14 @@
                 <div class="card" style="margin-bottom:0; box-shadow:none; border: 1px solid #ddd;">
                     <h2>Controle de Ocorrências - ITGI</h2>
                     <div class="excel-wrapper">
-                        <table class="excel-table">
+                       <table class="excel-table">
                             <thead>
                                 <tr>
                                     <th>Gravidade</th><th>Impacto</th><th>Atividade</th><th>Descrição da ocorrência</th><th>Data</th><th>Horas impactadas</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="background:#dc3545; color:white;">Grave</td><td style="background:#f5c6cb; color:#721c24;">100%</td><td style="background:#f5c6cb; color:#721c24;">Concessão do intervalo</td><td>Atraso do CCO em liberar o intervalo em 2h10</td><td>17/03/2026</td><td>02:10:00</td>
-                                </tr>
+                            <tbody id="tabela-ocorrencias">
+                                <!-- O JavaScript vai injetar as linhas do ocorrencias.csv aqui -->
                             </tbody>
                         </table>
                     </div>
@@ -610,6 +608,72 @@
         }
 
         window.addEventListener('load', carregarPlanilha);
+
+        // ==========================================
+        // LEITOR AUTOMÁTICO - OCORRÊNCIAS (EXCEL)
+        // ==========================================
+        async function carregarOcorrencias() {
+            try {
+                // Busca o arquivo ocorrencias.csv no GitHub
+                const resposta = await fetch('ocorrencias.csv');
+                if (!resposta.ok) return console.log('Arquivo ocorrencias.csv não encontrado no GitHub.');
+                
+                const dados = await resposta.text();
+                const tbody = document.getElementById('tabela-ocorrencias');
+                tbody.innerHTML = ''; 
+
+                const linhas = dados.split('\n');
+
+                for (let i = 0; i < linhas.length; i++) {
+                    if (linhas[i].trim() === '') continue; 
+                    
+                    let textoLinha = linhas[i].toLowerCase();
+                    
+                    // Ignora o cabeçalho do Excel
+                    if (textoLinha.includes('gravidade') || textoLinha.includes('descrição da ocorrência') || textoLinha.includes('controle de ocorrências')) {
+                        continue; 
+                    }
+
+                    const colunas = linhas[i].split(/[,;]/); 
+
+                    // Garante que leu as 6 colunas
+                    if (colunas.length < 5) continue;
+
+                    let tr = document.createElement('tr');
+
+                    // Descobre a Gravidade para pintar as células (como no seu print)
+                    let gravidade = colunas[0] ? colunas[0].replace(/(^"|"$)/g, '').trim().toLowerCase() : '';
+
+                    // Loop para pegar as 6 colunas de Ocorrências
+                    for (let j = 0; j < 6; j++) {
+                        let td = document.createElement('td');
+                        let texto = colunas[j] ? colunas[j].replace(/(^"|"$)/g, '').trim() : '';
+                        td.textContent = texto;
+
+                        // Se a gravidade for "Grave", ele pinta a primeira célula de vermelho forte, e as duas seguintes de rosa (igual ao seu Excel)
+                        if (gravidade.includes('grave')) {
+                            if (j === 0) {
+                                td.style.backgroundColor = '#dc3545'; // Vermelho forte
+                                td.style.color = 'white';
+                            } else if (j === 1 || j === 2) {
+                                td.style.backgroundColor = '#f5c6cb'; // Fundo rosinha
+                                td.style.color = '#721c24'; // Letra vermelha
+                            }
+                        }
+
+                        tr.appendChild(td);
+                    }
+
+                    tbody.appendChild(tr);
+                }
+            } catch (erro) {
+                console.error('Erro ao ler a planilha de ocorrencias:', erro);
+            }
+        }
+
+        // Adiciona a leitura de ocorrências para rodar junto com a página
+        window.addEventListener('load', carregarOcorrencias);
+        
     </script>
 </body>
 </html>
