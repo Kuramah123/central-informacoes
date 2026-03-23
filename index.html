@@ -113,7 +113,7 @@
         .total-row { background: #f8f9fa; font-weight: bold; color: var(--azul-mrs); }
 
         /* =========================================
-           ABA PESSOAS (ORGANOGRAMA SAP/SUCCESSFACTORS)
+           ABA PESSOAS (ORGANOGRAMA SAP)
         ========================================= */
         .org-wrapper { width: 100%; overflow-x: auto; overflow-y: hidden; padding: 20px 20px 40px 20px; }
         .org-wrapper::-webkit-scrollbar { height: 12px; }
@@ -159,28 +159,21 @@
         .sub-content { display: none; animation: fadeIn 0.4s; }
         .sub-content.active { display: block; }
 
-        /* Tabela Estilo Excel */
         .excel-wrapper { overflow-x: auto; margin-top: 15px; border-radius: 6px; border: 1px solid #ccc; }
         .excel-table { width: 100%; border-collapse: collapse; min-width: 1200px; font-size: 12px; }
         .excel-table th { background: #1f1f1f; color: white; padding: 10px; text-align: center; border: 1px solid #444; }
         .excel-table td { padding: 8px; border: 1px solid #ccc; text-align: center; color: #333; }
         
-        /* Cores idênticas ao Excel da MRS */
         .row-concedido { background-color: #70AD47; color: white !important; }
         .row-concedido td { color: white !important; }
-        
         .row-prog { background-color: #4472C4; color: white !important; }
         .row-prog td { color: white !important; }
-        
         .row-rej { background-color: #ED7D31; color: white !important; }
         .row-rej td { color: white !important; }
-        
         .row-aguard { background-color: #FFC000; color: #333 !important; }
 
-        /* Dashboard Ocorrências */
         .dash-ocorrencias { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
         .dash-card { background: white; padding: 15px; border: 1px solid #ddd; border-radius: 6px; text-align: center; }
-        
         .donut-chart { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#dc3545 14%, #28a745 14% 100%); margin: 10px auto; display: flex; align-items: center; justify-content: center; position: relative; }
         .donut-inner { width: 70px; height: 70px; background: white; border-radius: 50%; position: absolute; }
         .donut-labels { display: flex; justify-content: space-around; font-size: 11px; margin-top: 10px; font-weight: bold;}
@@ -220,7 +213,7 @@
         .btn-save { background: var(--azul-mrs); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .btn-save:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
         .btn-cancel { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px; }
-        
+
     </style>
 </head>
 <body>
@@ -477,7 +470,6 @@
                 <button class="sub-btn" onclick="showSubTab('ocor')" id="btn-ocor">Ocorrências e Aderência</button>
             </div>
 
-<!-- SUB-ABA: PROGRAMAÇÃO -->
             <div id="prog" class="sub-content active">
                 <div class="excel-wrapper">
                     <table class="excel-table">
@@ -500,13 +492,11 @@
                             </tr>
                         </thead>
                         <tbody id="tabela-programacao">
-                            <!-- O JavaScript vai injetar as linhas do CSV aqui automaticamente -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- SUB-ABA: OCORRÊNCIAS E ADERÊNCIA -->
             <div id="ocor" class="sub-content">
                 <div class="card" style="margin-bottom:0; box-shadow:none; border: 1px solid #ddd;">
                     <h2>Controle de Ocorrências - ITGI</h2>
@@ -518,7 +508,6 @@
                                 </tr>
                             </thead>
                             <tbody id="tabela-ocorrencias">
-                                <!-- O JavaScript vai injetar as linhas do ocorrencias.csv aqui -->
                             </tbody>
                         </table>
                     </div>
@@ -558,9 +547,6 @@
             </div>
         </div>
 
-        <!-- =========================================
-             OUTRAS ABAS 
-        ========================================= -->
         <!-- =========================================
              ABA EVENTOS E AGENDA
         ========================================= -->
@@ -621,13 +607,13 @@
                 </div>
             </div>
         </div>
+
         <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
         <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
     </main>
 
     <script>
-        // Lógica de navegação entre as páginas principais
         function showPage(pageId) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
@@ -635,13 +621,11 @@
             document.getElementById('link-' + pageId).classList.add('active');
         }
 
-        // Lógica do botão Retrátil da barra lateral
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('collapsed');
             document.getElementById('main-content').classList.toggle('expanded');
         }
         
-        // Lógica das Sub-abas de Intervalos
         function showSubTab(tabId) {
             document.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
@@ -663,62 +647,49 @@
 
                 const linhas = dados.split('\n');
 
-                // Pula a primeira linha se for cabeçalho
                 for (let i = 0; i < linhas.length; i++) {
                     if (linhas[i].trim() === '') continue; 
-                    
                     let textoLinha = linhas[i].toLowerCase();
                     
-                    // Ignora linhas que contenham títulos das colunas ou da tabela
                     if (textoLinha.includes('status') || textoLinha.includes('número da os') || textoLinha.includes('controle de intervalos')) {
                         continue; 
                     }
 
                     const colunas = linhas[i].split(/[,;]/); 
-
-                    // Garante que a linha tenha informações suficientes e não seja só sujeira do excel
                     if (colunas.length < 5) continue;
 
                     let tr = document.createElement('tr');
-
-                    // Descobre o Status (Sempre a coluna 0 agora)
                     let status = colunas[0] ? colunas[0].trim().toLowerCase() : '';
                     
-                    // Pinta a linha conforme a regra do Excel
                     if (status === 'concedido') {
-                        tr.className = 'row-concedido'; // Verde
-                    } else if (status === 'programado') {
-                        tr.className = 'row-prog'; // Azul
-                    } else if (status === 'aguardando') {
-                        tr.className = 'row-aguard'; // Amarelo
-                    } else if (status === 'não aceito' || status === 'nao aceito') {
-                        tr.className = 'row-rej'; // Laranja/Vermelho
+                        tr.className = 'row-concedido'; 
+                    } else if (status.includes('programado') && !status.includes('não')) {
+                        tr.className = 'row-prog'; 
+                    } else if (status.includes('aguardando')) {
+                        tr.className = 'row-aguard'; 
+                    } else if (status.includes('não aceito') || status.includes('nao aceito') || status.includes('não programado') || status.includes('nao programado')) {
+                        tr.className = 'row-rej'; 
                     }
 
-                    // Loop para pegar RIGOROSAMENTE apenas as 14 primeiras colunas (0 a 13)
                     for (let j = 0; j < 14; j++) {
                         let td = document.createElement('td');
-                        // Se a coluna não existir, deixa em branco. Se existir, limpa aspas e espaços.
                         let texto = colunas[j] ? colunas[j].replace(/(^"|"$)/g, '').trim() : '';
                         td.textContent = texto;
                         tr.appendChild(td);
                     }
-
                     tbody.appendChild(tr);
                 }
             } catch (erro) {
                 console.error('Erro ao ler a planilha:', erro);
             }
         }
-
         window.addEventListener('load', carregarPlanilha);
 
-// ==========================================
+        // ==========================================
         // LEITOR AUTOMÁTICO - OCORRÊNCIAS (EXCEL)
         // ==========================================
         async function carregarOcorrencias() {
             try {
-                // Busca o arquivo ocorrencias.csv no GitHub
                 const resposta = await fetch('ocorrencias.csv');
                 if (!resposta.ok) return console.log('Arquivo ocorrencias.csv não encontrado no GitHub.');
                 
@@ -730,10 +701,8 @@
 
                 for (let i = 0; i < linhas.length; i++) {
                     if (linhas[i].trim() === '') continue; 
-                    
                     let textoLinha = linhas[i].toLowerCase();
                     
-                    // NOVA REGRA: Ignora o cabeçalho e os rodapés do seu Excel
                     if (
                         textoLinha.includes('gravidade') || 
                         textoLinha.includes('descrição da ocorrência') || 
@@ -745,8 +714,7 @@
                     }
 
                     const colunas = linhas[i].split(/[,;]/); 
-
-                    // NOVA REGRA: Verifica se a linha exportada pelo Excel não está cheia de espaços em branco vazios
+                    
                     let linhaTotalmenteVazia = true;
                     for(let c = 0; c < colunas.length; c++) {
                         if(colunas[c].replace(/(^"|"$)/g, '').trim() !== '') {
@@ -755,52 +723,39 @@
                         }
                     }
                     
-                    // Se não tiver colunas suficientes ou se for uma linha vazia do Excel, ele pula
                     if (linhaTotalmenteVazia || colunas.length < 5) continue;
 
                     let tr = document.createElement('tr');
-
-                    // Descobre a Gravidade para pintar as células (como no seu print)
                     let gravidade = colunas[0] ? colunas[0].replace(/(^"|"$)/g, '').trim().toLowerCase() : '';
 
-                    // Loop para pegar as 6 colunas de Ocorrências
                     for (let j = 0; j < 6; j++) {
                         let td = document.createElement('td');
                         let texto = colunas[j] ? colunas[j].replace(/(^"|"$)/g, '').trim() : '';
                         td.textContent = texto;
 
-                        // Se a gravidade for "Grave", ele pinta a primeira célula de vermelho forte, e as duas seguintes de rosa (igual ao seu Excel)
                         if (gravidade.includes('grave')) {
                             if (j === 0) {
-                                td.style.backgroundColor = '#dc3545'; // Vermelho forte
+                                td.style.backgroundColor = '#dc3545';
                                 td.style.color = 'white';
                             } else if (j === 1 || j === 2) {
-                                td.style.backgroundColor = '#f5c6cb'; // Fundo rosinha
-                                td.style.color = '#721c24'; // Letra vermelha
+                                td.style.backgroundColor = '#f5c6cb';
+                                td.style.color = '#721c24';
                             }
                         }
-
                         tr.appendChild(td);
                     }
-
                     tbody.appendChild(tr);
                 }
             } catch (erro) {
-                console.error('Erro ao ler a planilha de ocorrencias:', erro);
+                console.error('Erro ao ler ocorrencias:', erro);
             }
         }
-
-        // Adiciona a leitura de ocorrências para rodar junto com a página
         window.addEventListener('load', carregarOcorrencias);
 
-// ==========================================
+        // ==========================================
         // LÓGICA DA AGENDA (EVENTOS)
         // ==========================================
-        
-        // Meses em português para desenhar na "folhinha" do calendário
         const mesesNomes =["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-
-        // Se já tiver eventos no navegador, ele carrega. Se não, cria dois de exemplo.
         let agendaMRS = JSON.parse(localStorage.getItem('agendaMRS')) ||[
             { id: 1, titulo: "Reunião de Alinhamento - Obras SP", data: "2026-03-25", hora: "14:00", local: "Teams (Online)", org: "Vinicius Nascimento", convidados: "Coordenadores e Especialistas" },
             { id: 2, titulo: "Visita Técnica - Demolição", data: "2026-04-10", hora: "09:00", local: "KM 301 - FADFRA", org: "Amanda Borges", convidados: "Equipe de Segurança, CCO" }
@@ -810,11 +765,9 @@
             const container = document.getElementById('lista-eventos');
             container.innerHTML = '';
 
-            // Ordena os eventos por data antes de exibir
             agendaMRS.sort((a, b) => new Date(a.data) - new Date(b.data));
 
             agendaMRS.forEach(evento => {
-                // Quebra a data para pegar dia e mês (Ex: 2026-03-25)
                 let dataParts = evento.data.split('-');
                 let dia = dataParts[2] || '--';
                 let mesIndex = dataParts[1] ? parseInt(dataParts[1]) - 1 : 0;
@@ -842,7 +795,6 @@
             });
         }
 
-        // Funções de Abrir e Fechar Janela
         function abrirModal() { document.getElementById('modal-evento').style.display = 'flex'; }
         function fecharModal() { document.getElementById('modal-evento').style.display = 'none'; limparFormulario(); }
 
@@ -869,7 +821,7 @@
             }
 
             let novoEvento = {
-                id: Date.now(), // Gera um ID único
+                id: Date.now(), 
                 titulo: titulo,
                 data: data,
                 hora: hora,
@@ -878,11 +830,11 @@
                 convidados: convidados || 'Todos'
             };
 
-            agendaMRS.push(novoEvento); // Adiciona na lista
-            localStorage.setItem('agendaMRS', JSON.stringify(agendaMRS)); // Salva no navegador
+            agendaMRS.push(novoEvento); 
+            localStorage.setItem('agendaMRS', JSON.stringify(agendaMRS)); 
             
             fecharModal();
-            renderizarAgenda(); // Atualiza a tela
+            renderizarAgenda(); 
         }
 
         function deletarEvento(id) {
@@ -893,9 +845,7 @@
             }
         }
 
-        // Carrega a agenda ao abrir o site
         window.addEventListener('load', renderizarAgenda);
-        
     </script>
 </body>
 </html>
