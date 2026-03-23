@@ -597,24 +597,14 @@
                     <table class="excel-table">
                         <thead>
                             <tr>
+                             <thead>
+                            <tr>
                                 <th>Status</th><th>Número da OS</th><th>Início da Programação</th><th>Fim da Programação</th><th>Hora início</th><th>Hora fim</th><th>Sigla do Intervalo</th><th>Fração</th><th>KM inicial</th><th>KM final</th><th>Pátio e Entrepátio</th><th>Linha</th><th>Duração</th><th>Descrição da atividade</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="row-prog">
-                                <td>Programado</td><td>23402814</td><td>17/03/2026</td><td>17/03/2026</td><td>13:00:00</td><td>14:30:00</td><td>ITOP</td><td></td><td>-</td><td>-</td><td>IFA</td><td>1</td><td>01:30:00</td><td>Descarga de material para remodelação</td>
-                            </tr>
-                            <tr class="row-prog">
-                                <td>Programado</td><td>23396511</td><td>17/03/2026</td><td>17/03/2026</td><td>08:00:00</td><td>23:00:00</td><td>ITGI</td><td></td><td>-</td><td>-</td><td>IUFIBA</td><td>-</td><td>15:00:00</td><td>Remodelação túnel</td>
-                            </tr>
-                            <tr class="row-prog">
-                                <td>Programado</td><td>23406499</td><td>18/03/2026</td><td>18/03/2026</td><td>14:00:00</td><td>15:30:00</td><td>ITCD</td><td>30</td><td>-</td><td>-</td><td>FADFRA</td><td>1</td><td>01:30:00</td><td>Lastro e recolhimento de dormente</td>
-                            </tr>
-                            <tr class="row-aguard">
-                                <td>Aguardando</td><td>23406520</td><td>19/03/2026</td><td>19/03/2026</td><td>14:00:00</td><td>15:30:00</td><td>ITCD</td><td>30</td><td>-</td><td>-</td><td>FADFRA</td><td>1</td><td>01:30:00</td><td>Lastro e recolhimento de dormente</td>
-                            </tr>
-                            <tr class="row-aguard">
-                                <td>Aguardando</td><td>23396584</td><td>19/03/2026</td><td>19/03/2026</td><td>08:00:00</td><td>18:00:00</td><td>ITGI</td><td>-</td><td>-</td><td>-</td><td>IFA</td><td>1 (120M)</td><td>10:00:00</td><td>Remodelação da linha de fábricas</td>
+                        <tbody id="tabela-programacao">
+                            <!-- O JavaScript vai injetar as linhas do CSV aqui automaticamente -->
+                        </tbody>
                             </tr>
                         </tbody>
                     </table>
@@ -706,6 +696,62 @@
             document.getElementById(tabId).classList.add('active');
             document.getElementById('btn-' + tabId).classList.add('active');
         }
+
+// ==========================================
+        // LEITOR AUTOMÁTICO DO ARQUIVO CSV (EXCEL)
+        // ==========================================
+        async function carregarPlanilha() {
+            try {
+                // Busca o arquivo programacao.csv que você subiu no GitHub
+                const resposta = await fetch('programacao.csv');
+                
+                // Se o arquivo não for encontrado, ele para aqui e avisa no console
+                if (!resposta.ok) return console.log('Arquivo CSV não encontrado ainda.');
+                
+                const dados = await resposta.text();
+                
+                // Pega o corpo da tabela no HTML
+                const tbody = document.getElementById('tabela-programacao');
+                tbody.innerHTML = ''; // Limpa qualquer coisa que estiver lá
+
+                // Quebra o texto lido em linhas
+                const linhas = dados.split('\n');
+
+                // O "let i = 1" faz ele pular a linha 0 (que é o cabeçalho do Excel)
+                for (let i = 1; i < linhas.length; i++) {
+                    if (linhas[i].trim() === '') continue; // Pula linhas vazias
+
+                    // No Brasil o CSV do Excel separa por ponto-e-vírgula (;) ou vírgula (,)
+                    const colunas = linhas[i].split(/[,;]/); 
+
+                    // Cria uma nova linha <tr>
+                    let tr = document.createElement('tr');
+
+                    // Descobre o Status (primeira coluna) para pintar a linha de azul ou amarelo
+                    let status = colunas[0] ? colunas[0].trim().toLowerCase() : '';
+                    if (status === 'programado') {
+                        tr.className = 'row-prog'; // Azul
+                    } else if (status === 'aguardando') {
+                        tr.className = 'row-aguard'; // Amarelo
+                    }
+
+                    // Cria as células <td> para cada coluna do CSV
+                    colunas.forEach(colunaTexto => {
+                        let td = document.createElement('td');
+                        td.textContent = colunaTexto.trim();
+                        tr.appendChild(td);
+                    });
+
+                    // Adiciona a linha pronta na tabela
+                    tbody.appendChild(tr);
+                }
+            } catch (erro) {
+                console.error('Erro ao ler a planilha:', erro);
+            }
+        }
+
+        // Faz a leitura da planilha automaticamente assim que o site carrega
+        window.addEventListener('load', carregarPlanilha);
         
     </script>
 </body>
