@@ -40,8 +40,22 @@
         .sidebar.collapsed { left: calc(-1 * var(--sidebar-width)); }
 
         .logo-box { background: white; padding: 25px; text-align: center; border-bottom: 5px solid var(--amarelo-mrs); min-height: 100px; display: flex; align-items: center; justify-content: center; }
-        .logo-box img { width: 100%; max-width: 160px; height: auto; }
-
+      .logo-box { 
+            background: white; 
+            padding: 15px 25px; /* Diminuí um pouco o respiro de cima e de baixo */
+            text-align: center; 
+            border-bottom: 5px solid var(--amarelo-mrs); 
+            min-height: 100px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .logo-box img { 
+            width: 100%; 
+            max-width: 150px; /* Limitando o tamanho da logo aqui! */
+            height: auto; 
+            display: block;
+        }
         .nav-links { list-style: none; margin-top: 15px; }
         .nav-links li a { 
             display: flex; align-items: center; padding: 15px 25px; 
