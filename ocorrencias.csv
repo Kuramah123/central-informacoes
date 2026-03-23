@@ -1,0 +1,34 @@
+﻿CONTROLE DE OCORRÊNCIAS - ITGI;;;;;Horas de Intervalo;;;;;;;;;;
+;;;;;15:00:00;;;Horas Impactadas;;;;GRAVIDADE;;;
+Gravidade;Impacto;Atividade;Descrição da ocorrência;Data;Horas impactadas;;Gravidade;Horas solicitadas;Paralisações;Tempo Produtivo;;Grave;Médio;Leve;Sem Gravidade
+Grave;100%;Concessão do intervalo;Atraso do CCO em liberar o intervalo em 2h10;17/03/2026;02:10:00;;Grave;15:00:00;02:10:00;12:50:00;;1;0;0;0
+;;;;;;;Leve;;;;;;;;
+;;;;;;;Médio;ATIVIDADE;;;;;;;
+;;;;;;;Sem Gravidade;Concessão do intervalo;Operação;Planejamento;Materiais;Execução;Mau tempo;Adversos;
+;;;;;;;;1;0;0;0;0;0;0;
+;;;;;;;Atividade;;;;;;;;
+;;;;;;;Concessão do intervalo;;;;;;;;
+;;;;;;;Operação;;;;;;;;
+;;;;;;;Planejamento;;;;;;;;
+;;;;;;;Materiais;;;;;;;;
+;;;;;;;Execução;;;;;;;;
+;;;;;;;Adversos;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+Horas impactadas de facto:;;;;;02:10:00;;;;;;;;;;
+Elaborado por: Amanda Borges e Pedro Santos;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
