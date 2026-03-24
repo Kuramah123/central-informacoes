@@ -296,8 +296,8 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <h2>Notícias e Comunicados</h2>
+<div class="card clickable-card" onclick="showPage('noticias')">
+                        <h2 style="justify-content: space-between;">Notícias e Comunicados <i class="fas fa-expand-arrows-alt" style="color: #ccc; font-size: 14px;"></i></h2>
                         <div class="news-item">
                             <img src="https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" class="news-img">
                             <div>
@@ -305,15 +305,15 @@
                                 <p style="font-size: 13px; margin-top:5px;">As obras de revitalização da malha paulista atingiram novo marco de eficiência neste semestre...</p>
                             </div>
                         </div>
-                        <div class="news-item">
+                        <div class="news-item" style="border-bottom: none;">
                             <img src="https://www.mrs.com.br/wp-content/uploads/2021/07/locomotiva-mrs.jpg" class="news-img">
                             <div>
                                 <strong style="color:var(--azul-mrs)">Novo Padrão de Medições JAN/26</strong>
                                 <p style="font-size: 13px; margin-top:5px;">O informativo de medições agora conta com detalhamento por etapa de aprovação no SAP.</p>
                             </div>
                         </div>
+                        <p style="text-align: center; font-size: 12px; margin-top: 15px; color: var(--azul-claro); font-weight: bold;">Clique para expandir o mural</p>
                     </div>
-                </div>
 
                 <div class="right-col">
                     <div class="card clickable-card" onclick="showPage('galeria')">
@@ -765,6 +765,77 @@
                 </div>
             </div>
         </div>
+            <div id="noticias" class="page-content">
+            <div class="gallery-header">
+                <div>
+                    <h1>Notícias e Comunicados</h1>
+                    <p class="subtitle">Mural completo de avisos e atualizações da gerência</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+                    <button class="btn-update" onclick="abrirModalNoticia()"><i class="fas fa-plus"></i> Nova Notícia</button>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card" style="margin-bottom: 0; display: flex; gap: 25px; align-items: center;">
+                    <img src="https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" style="width: 250px; height: 160px; object-fit: cover; border-radius: 6px; flex-shrink: 0;">
+                    <div>
+                        <span style="font-size: 12px; color: #888; font-weight: bold;"><i class="fas fa-tag"></i> Obras | <i class="fas fa-calendar-alt"></i> 24/03/2026</span>
+                        <h2 style="border: none; padding: 0; margin: 8px 0; font-size: 20px;">Avanço na Remodelação de Trechos</h2>
+                        <p style="font-size: 14px; line-height: 1.6; color: #555;">As obras de revitalização da malha paulista atingiram novo marco de eficiência neste semestre. A equipe de via permanente conseguiu antecipar o cronograma em 15% na região do Vale do Paraíba, garantindo maior fluidez nos intervalos programados.</p>
+                        <a href="#" style="color: var(--azul-claro); font-weight: bold; font-size: 13px; display: inline-block; margin-top: 10px; text-decoration: none;">Ler comunicado completo <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 0; display: flex; gap: 25px; align-items: center;">
+                    <img src="https://www.mrs.com.br/wp-content/uploads/2021/07/locomotiva-mrs.jpg" style="width: 250px; height: 160px; object-fit: cover; border-radius: 6px; flex-shrink: 0;">
+                    <div>
+                        <span style="font-size: 12px; color: #888; font-weight: bold;"><i class="fas fa-tag"></i> Processos | <i class="fas fa-calendar-alt"></i> 20/03/2026</span>
+                        <h2 style="border: none; padding: 0; margin: 8px 0; font-size: 20px;">Novo Padrão de Medições JAN/26</h2>
+                        <p style="font-size: 14px; line-height: 1.6; color: #555;">O informativo de medições agora conta com detalhamento por etapa de aprovação no SAP. Fiquem atentos aos novos prazos de submissão de planilhas para garantir o fluxo financeiro no prazo correto, evitando retrabalho na área de suprimentos.</p>
+                        <a href="#" style="color: var(--azul-claro); font-weight: bold; font-size: 13px; display: inline-block; margin-top: 10px; text-decoration: none;">Ler comunicado completo <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal-noticia" class="modal-overlay">
+                <div class="modal-box" style="max-width: 600px;">
+                    <h2>Publicar Nova Notícia</h2>
+                    
+                    <div class="form-group">
+                        <label>Título do Comunicado</label>
+                        <input type="text" class="form-control" placeholder="Ex: Novo treinamento de segurança NR-10">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group" style="width: 50%;">
+                            <label>Categoria</label>
+                            <select class="form-control">
+                                <option>Gestão e Processos</option>
+                                <option>Andamento de Obras</option>
+                                <option>Segurança</option>
+                                <option>Avisos Gerais</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="width: 50%;">
+                            <label>Imagem de Capa (Upload)</label>
+                            <input type="file" class="form-control" style="padding: 6px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Conteúdo da Notícia</label>
+                        <textarea class="form-control" rows="5" placeholder="Escreva os detalhes do comunicado aqui..."></textarea>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 25px;">
+                        <button class="btn-cancel" onclick="fecharModalNoticia()">Cancelar</button>
+                        <button class="btn-save" onclick="salvarNoticia()"><i class="fas fa-paper-plane"></i> Publicar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
         <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
@@ -1066,6 +1137,16 @@
             // Escreve o título exato (Ex: Contratos - Campo Grande)
             document.getElementById('titulo-pasta-arquivos').innerText = `${nomePasta} - ${obraSelecionadaAgora}`;
             showPage('pasta-arquivos'); // Abre a nossa nova página
+        }
+
+        // ==========================================
+        // LÓGICA DO MURAL DE NOTÍCIAS
+        // ==========================================
+        function abrirModalNoticia() { document.getElementById('modal-noticia').style.display = 'flex'; }
+        function fecharModalNoticia() { document.getElementById('modal-noticia').style.display = 'none'; }
+        function salvarNoticia() {
+            alert('Perfeito! Quando o backend estiver pronto, este botão enviará o texto e a foto para o banco de dados da MRS.');
+            fecharModalNoticia();
         }
         
     </script>
