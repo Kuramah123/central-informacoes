@@ -779,19 +779,14 @@
                 </div>
             </div>
 
-            <div id="modal-noticia" class="modal-overlay">
-                <div class="modal-box" style="max-width: 600px;">
-                    <h2>Publicar Nova Notícia</h2>
-                    <div class="form-group"><label>Título do Comunicado</label><input type="text" class="form-control" placeholder="Ex: Novo treinamento de segurança NR-10"></div>
-                    <div class="form-row">
-                        <div class="form-group" style="width: 50%;">
-                            <label>Categoria</label>
-                            <select class="form-control"><option>Gestão e Processos</option><option>Andamento de Obras</option><option>Segurança</option><option>Avisos Gerais</option></select>
-                        </div>
-                        <div class="form-group" style="width: 50%;"><label>Imagem de Capa (Upload)</label><input type="file" class="form-control" style="padding: 6px;"></div>
-                    </div>
-                    <div class="form-group"><label>Conteúdo da Notícia</label><textarea class="form-control" rows="5" placeholder="Escreva os detalhes do comunicado aqui..."></textarea></div>
-                    <div style="display: flex; justify-content: flex-end; margin-top: 25px;"><button class="btn-cancel" onclick="fecharModalNoticia()">Cancelar</button><button class="btn-save" onclick="salvarNoticia()"><i class="fas fa-paper-plane"></i> Publicar</button></div>
+<div id="modal-noticia" class="modal-overlay">
+                <div class="modal-box" style="max-width: 700px; padding: 25px; position: relative;">
+                    <button onclick="fecharModalNoticia()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #999; transition: 0.3s;" onmouseover="this.style.color='#dc3545'" onmouseout="this.style.color='#999'"><i class="fas fa-times"></i></button>
+                    
+                    <h2 style="margin-bottom: 15px;">Publicar Nova Notícia</h2>
+                    
+                    <iframe width="100%" height="550px" src="https://forms.office.com/Pages/ResponsePage.aspx?id=aMY2Dpz4kUO04NeniWchAAsgGYelJopPu3dvo2IIL6dURU9RMVI3V0c1UE41MEZVOUFJNEowTVoyUS4u" frameborder="0" style="border: none; border-radius: 4px; background: #f9f9f9;"></iframe>
+                    
                 </div>
             </div>
         </div>
@@ -975,63 +970,7 @@
 
         function abrirModalNoticia() { document.getElementById('modal-noticia').style.display = 'flex'; }
         function fecharModalNoticia() { document.getElementById('modal-noticia').style.display = 'none'; }
-        async function salvarNoticia() {
-            console.log("Botão salvar clicado...");
-
-            const modal = document.getElementById('modal-noticia');
-            const campoTitulo = modal.querySelector('input[type="text"]');
-            const campoCategoria = modal.querySelector('select');
-            const campoConteudo = modal.querySelector('textarea');
-
-            if (!campoTitulo || !campoConteudo) {
-                alert("Erro interno: Campos não encontrados.");
-                return;
-            }
-
-            const titulo = campoTitulo.value;
-            const categoria = campoCategoria.value;
-            const conteudo = campoConteudo.value;
-            
-            // ========================================================
-            // COLE O LINK GIGANTE DO POWER AUTOMATE DENTRO DAS ASPAS:
-            const urlAutomate = "https://default0e36c668f89c4391b4e0d7a7896721.00.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/56d22033d8f64ecb879385f30a4931b4/triggers/manual/paths/invoke?api-version=1";
-            // ========================================================
-
-            if (!titulo || !conteudo) {
-                alert("Por favor, preencha o título e o conteúdo!");
-                return;
-            }
-
-            const dados = { 
-                titulo: titulo, 
-                categoria: categoria, 
-                conteudo: conteudo, 
-                imagem: "https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" 
-            };
-
-            try {
-                console.log("Enviando dados...", dados);
-                
-                const response = await fetch(urlAutomate, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dados)
-                });
-
-                if (response.ok) {
-                    alert("Sucesso! Notícia salva no SharePoint.");
-                    document.getElementById('modal-noticia').style.display = 'none';
-                    campoTitulo.value = "";
-                    campoConteudo.value = "";
-                } else {
-                    alert("Erro! A Microsoft recusou a conexão. Verifique se copiou o link inteiro com a assinatura final.");
-                }
-
-            } catch (e) {
-                console.error("Erro fatal:", e);
-                alert("Houve um erro na conexão. Aperte F12 para ler o código do erro.");
-            }
-        }
+        
         let obraSelecionadaAgora = 'Remodelação';
         function selecionarObra(event, nomeObra) {
             obraSelecionadaAgora = nomeObra;
