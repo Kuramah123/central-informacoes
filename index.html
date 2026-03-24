@@ -276,9 +276,12 @@
             <li><a onclick="showPage('metas')" id="link-metas"><i class="fas fa-bullseye"></i> Metas</a></li>
         </ul>
         
-        <div class="sidebar-footer">
+    <div class="sidebar-footer">
             <strong>Gerência de Implantação de Obras Ferroviárias - SP</strong>
             <span>v1.0.0 | Desenvolvido por Pedro</span>
+            <button onclick="relatarBug()" onmouseover="this.style.backgroundColor='#dc3545'; this.style.borderColor='#dc3545'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.2)'" style="margin-top: 15px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; width: 100%; transition: 0.3s;">
+                <i class="fas fa-bug"></i> Relatar Erro/Bug
+            </button>
         </div>
     </aside>
 
@@ -794,12 +797,15 @@
         </div>
 
         <div id="galeria" class="page-content">
-            <div class="gallery-header">
+<div class="gallery-header">
                 <div>
                     <h1>Galeria de Obras</h1>
                     <p class="subtitle">Acompanhamento fotográfico dos projetos SP</p>
                 </div>
-                <button class="btn-back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+                    <button class="btn-update" onclick="adicionarFoto()"><i class="fas fa-camera"></i> Adicionar Foto</button>
+                </div>
             </div>
             <div class="card" style="background: transparent; box-shadow: none; padding: 0;">
                 <div class="gallery-filters">
@@ -995,6 +1001,18 @@
         }
         function filtrarGaleria(event, obra) { document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active')); event.target.classList.add('active'); renderizarGaleria(obra); }
         window.addEventListener('load', () => renderizarGaleria('todas'));
+
+        // ==========================================
+        // LÓGICA DE FOTOS E BUGS (EM DESENVOLVIMENTO)
+        // ==========================================
+        function adicionarFoto() {
+            alert('Funcionalidade em desenvolvimento.');
+        }
+
+        function relatarBug() {
+            alert('Funcionalidade em desenvolvimento.');
+        }
+        
     </script>
 </body>
 </html>
