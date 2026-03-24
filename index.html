@@ -108,8 +108,12 @@
         .photo-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .photo-gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
 
+        /* Efeito de clique no card da Home */
+        .clickable-card { cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .clickable-card:hover { border-color: var(--azul-claro); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: translateY(-3px); }
+
         /* =========================================
-           ABA GALERIA EXPANDIDA E FILTROS
+           ESTILOS DAS ABAS EXPANDIDAS (GALERIA E OBRAS)
         ========================================= */
         .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .btn-back { background: var(--azul-mrs); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
@@ -125,12 +129,6 @@
         .gallery-item img { width: 100%; height: 160px; object-fit: cover; display: block; }
         .gallery-item .img-caption { padding: 10px; background: white; font-size: 12px; font-weight: bold; color: var(--azul-mrs); text-align: center; border-top: 2px solid var(--amarelo-mrs); }
 
-        .clickable-card { cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-        .clickable-card:hover { border-color: var(--azul-claro); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: translateY(-3px); }
-
-        /* =========================================
-           ABA OBRAS E PASTAS (DOCUMENTOS)
-        ========================================= */
         .obra-selector { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 15px; overflow-x: auto; }
         .obra-tab { background: none; border: none; padding: 8px 15px; font-size: 14px; font-weight: bold; color: var(--texto); cursor: pointer; border-radius: 4px; transition: 0.3s; white-space: nowrap; }
         .obra-tab:hover { background: #eee; }
@@ -290,14 +288,17 @@
                         <h2>Acesso Rápido</h2>
                         <div class="quick-grid">
                             <a onclick="showPage('obras')" class="btn-hub" style="cursor: pointer;"><i class="fas fa-hard-hat"></i>Obras</a>
-                            <a <a href="https://portalsap.erp.mrs.com.br/sap/bc/ui2/flp?sap-client=600&sap-language=PT#Shell-home" target="_blank" class="btn-hub"><i class="fas fa-file-invoice"></i>SAP</a>
+                            <a href="https://portalsap.erp.mrs.com.br/sap/bc/ui2/flp?sap-client=600&sap-language=PT#Shell-home" target="_blank" class="btn-hub"><i class="fas fa-file-invoice"></i>SAP</a>
                             <a href="https://mrslogsa-my.sharepoint.com/personal/30027002_mrs_com_br/_layouts/15/onedrive.aspx?id=%2Fpersonal%2F30027002%5Fmrs%5Fcom%5Fbr%2FDocuments%2FGer%C3%AAncia%20Obras%20Ferroviarias%20SP%2FObras%20Vale%20do%20Paraiba%2FP%C3%A1tio%20de%20Cruzamento%20de%20Pindamonhangaba%2F16%2EIntervalos%2FMapa%20para%20Intervalos%2Epdf&parent=%2Fpersonal%2F30027002%5Fmrs%5Fcom%5Fbr%2FDocuments%2FGer%C3%AAncia%20Obras%20Ferroviarias%20SP%2FObras%20Vale%20do%20Paraiba%2FP%C3%A1tio%20de%20Cruzamento%20de%20Pindamonhangaba%2F16%2EIntervalos" target="_blank" class="btn-hub"><i class="fas fa-train"></i>Malha</a>
                             <a onclick="showPage('bi')" class="btn-hub" style="cursor: pointer;"><i class="fas fa-shield-alt"></i>Segurança</a>
                         </div>
                     </div>
 
-<div class="card clickable-card" onclick="showPage('noticias')">
-                        <h2 style="justify-content: space-between;">Notícias e Comunicados <i class="fas fa-expand-arrows-alt" style="color: #ccc; font-size: 14px;"></i></h2>
+                    <div class="card clickable-card" onclick="showPage('noticias')">
+                        <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                            Notícias e Comunicados
+                            <i class="fas fa-expand-arrows-alt" style="color: #ccc; font-size: 14px;" title="Expandir"></i>
+                        </h2>
                         <div class="news-item">
                             <img src="https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" class="news-img">
                             <div>
@@ -305,19 +306,23 @@
                                 <p style="font-size: 13px; margin-top:5px;">As obras de revitalização da malha paulista atingiram novo marco de eficiência neste semestre...</p>
                             </div>
                         </div>
-                        <div class="news-item" style="border-bottom: none;">
+                        <div class="news-item" style="border-bottom: none; padding-bottom: 0;">
                             <img src="https://www.mrs.com.br/wp-content/uploads/2021/07/locomotiva-mrs.jpg" class="news-img">
                             <div>
                                 <strong style="color:var(--azul-mrs)">Novo Padrão de Medições JAN/26</strong>
                                 <p style="font-size: 13px; margin-top:5px;">O informativo de medições agora conta com detalhamento por etapa de aprovação no SAP.</p>
                             </div>
                         </div>
-                        <p style="text-align: center; font-size: 12px; margin-top: 15px; color: var(--azul-claro); font-weight: bold;">Clique para expandir o mural</p>
+                        <p style="text-align: center; font-size: 12px; margin-top: 15px; color: var(--azul-claro); font-weight: bold;">Clique para abrir o mural</p>
                     </div>
+                </div>
 
                 <div class="right-col">
                     <div class="card clickable-card" onclick="showPage('galeria')">
-                        <h2 style="justify-content: space-between;">Galeria de Fotos <i class="fas fa-expand-arrows-alt" style="color: #ccc; font-size: 14px;"></i></h2>
+                        <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                            Galeria de Fotos
+                            <i class="fas fa-expand-arrows-alt" style="color: #ccc; font-size: 14px;" title="Expandir"></i>
+                        </h2>
                         <div class="photo-gallery">
                             <img src="https://picsum.photos/id/191/200/200">
                             <img src="https://picsum.photos/id/192/200/200">
@@ -344,6 +349,104 @@
                     src="https://app.powerbi.com/reportEmbed?reportId=e189fcc9-2738-4b47-a34d-dd32489c4a27&autoAuth=true&ctid=0e36c668-f89c-4391-b4e0-d7a789672100" 
                     allowFullScreen="true">
                 </iframe>
+            </div>
+        </div>
+
+        <div id="obras" class="page-content">
+            <div class="gallery-header">
+                <div>
+                    <h1>Gestão de Obras</h1>
+                    <p class="subtitle">Repositório de arquivos, contratos e projetos SP</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="obra-selector">
+                    <button class="obra-tab active" onclick="selecionarObra(event, 'Remodelação')">Remodelação</button>
+                    <button class="obra-tab" onclick="selecionarObra(event, 'Campo Grande')">Campo Grande</button>
+                    <button class="obra-tab" onclick="selecionarObra(event, 'Aparecida')">Aparecida</button>
+                    <button class="obra-tab" onclick="selecionarObra(event, 'CCO')">CCO</button>
+                </div>
+
+                <h2 id="titulo-obra-atual" style="font-size: 16px; color: #555; margin-bottom: 15px; border: none;">
+                    <i class="fas fa-folder-open" style="color: var(--amarelo-mrs); margin-right: 8px;"></i>
+                    Pastas da Obra: Remodelação
+                </h2>
+                
+                <div class="folder-grid">
+                    <div class="folder-card" onclick="abrirPasta('Contratos')"><i class="fas fa-file-signature"></i><span>Contratos</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Projetos')"><i class="fas fa-drafting-compass"></i><span>Projetos</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Fotos')"><i class="fas fa-camera"></i><span>Fotos</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Eventograma')"><i class="fas fa-calendar-alt"></i><span>Eventograma</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Formulários em geral')"><i class="fas fa-list-alt"></i><span>Formulários em geral</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Financeiro')"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Documentos')"><i class="fas fa-folder"></i><span>Documentos</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pasta-arquivos" class="page-content">
+            <div class="gallery-header">
+                <div>
+                    <h1 id="titulo-pasta-arquivos">Nome da Pasta - Obra</h1>
+                    <p class="subtitle">Gerenciamento de arquivos e documentos</p>
+                </div>
+                <button class="btn-back" onclick="showPage('obras')"><i class="fas fa-arrow-left"></i> Voltar para Pastas</button>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <div style="position: relative; width: 100%; max-width: 300px;">
+                        <input type="text" class="form-control" placeholder="Buscar arquivo..." style="padding-left: 35px;">
+                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 12px; color: #999;"></i>
+                    </div>
+                    <button class="btn-update"><i class="fas fa-upload"></i> Adicionar Arquivo</button>
+                </div>
+
+                <div class="excel-wrapper">
+                    <table class="excel-table" style="min-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;"><i class="fas fa-file"></i></th>
+                                <th style="text-align: left;">Nome do Arquivo</th>
+                                <th>Modificado em</th>
+                                <th>Modificado por</th>
+                                <th>Tamanho</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; color: #dc3545;"><i class="fas fa-file-pdf fa-lg"></i></td>
+                                <td style="text-align: left;"><strong>Exemplo_Contrato_V1.pdf</strong></td>
+                                <td>24/03/2026</td>
+                                <td>Pedro (Você)</td>
+                                <td>2.4 MB</td>
+                                <td style="text-align: center; color: var(--azul-claro); cursor: pointer;">
+                                    <i class="fas fa-download" title="Baixar"></i> 
+                                    <i class="fas fa-trash-alt" style="margin-left: 15px; color: #dc3545;" title="Excluir"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; color: #28a745;"><i class="fas fa-file-excel fa-lg"></i></td>
+                                <td style="text-align: left;"><strong>Controle_Financeiro_Março.xlsx</strong></td>
+                                <td>23/03/2026</td>
+                                <td>Engenharia</td>
+                                <td>1.1 MB</td>
+                                <td style="text-align: center; color: var(--azul-claro); cursor: pointer;">
+                                    <i class="fas fa-download" title="Baixar"></i> 
+                                    <i class="fas fa-trash-alt" style="margin-left: 15px; color: #dc3545;" title="Excluir"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="text-align: center; padding: 40px; border: 2px dashed #ccc; border-radius: 8px; margin-top: 20px; background: #f9f9f9;">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #ccc; margin-bottom: 10px;"></i>
+                    <p style="color: #666; font-weight: bold;">Arraste e solte arquivos aqui para fazer upload</p>
+                    <p style="font-size: 12px; color: #999;">O backend do seu amigo vai capturar esses arquivos depois.</p>
+                </div>
             </div>
         </div>
 
@@ -646,126 +749,7 @@
             </div>
         </div>
 
-        <div id="galeria" class="page-content">
-            <div class="gallery-header">
-                <div>
-                    <h1>Galeria de Obras</h1>
-                    <p class="subtitle">Acompanhamento fotográfico dos projetos SP</p>
-                </div>
-                <button class="btn-back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
-            </div>
-
-            <div class="card" style="background: transparent; box-shadow: none; padding: 0;">
-                <div class="gallery-filters">
-                    <button class="filter-btn active" onclick="filtrarGaleria(event, 'todas')">Todas as Obras</button>
-                    <button class="filter-btn" onclick="filtrarGaleria(event, 'remodelacao')">Remodelação</button>
-                    <button class="filter-btn" onclick="filtrarGaleria(event, 'campo-grande')">Campo Grande</button>
-                    <button class="filter-btn" onclick="filtrarGaleria(event, 'aparecida')">Aparecida</button>
-                    <button class="filter-btn" onclick="filtrarGaleria(event, 'cco')">CCO</button>
-                </div>
-
-                <div class="expanded-gallery" id="grid-galeria">
-                    </div>
-            </div>
-        </div>
-
-        <div id="obras" class="page-content">
-            <div class="gallery-header">
-                <div>
-                    <h1>Gestão de Obras</h1>
-                    <p class="subtitle">Repositório de arquivos, contratos e projetos SP</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="obra-selector">
-                    <button class="obra-tab active" onclick="selecionarObra(event, 'Remodelação')">Remodelação</button>
-                    <button class="obra-tab" onclick="selecionarObra(event, 'Campo Grande')">Campo Grande</button>
-                    <button class="obra-tab" onclick="selecionarObra(event, 'Aparecida')">Aparecida</button>
-                    <button class="obra-tab" onclick="selecionarObra(event, 'CCO')">CCO</button>
-                </div>
-
-                <h2 id="titulo-obra-atual" style="font-size: 16px; color: #555; margin-bottom: 15px; border: none;">
-                    <i class="fas fa-folder-open" style="color: var(--amarelo-mrs); margin-right: 8px;"></i>
-                    Pastas da Obra: Remodelação
-                </h2>
-                
-<div class="folder-grid">
-                    <div class="folder-card" onclick="abrirPasta('Contratos')"><i class="fas fa-file-signature"></i><span>Contratos</span></div>
-                    <div class="folder-card" onclick="abrirPasta('Projetos')"><i class="fas fa-drafting-compass"></i><span>Projetos</span></div>
-                    <div class="folder-card" onclick="abrirPasta('Fotos')"><i class="fas fa-camera"></i><span>Fotos</span></div>
-                    <div class="folder-card" onclick="abrirPasta('Eventograma')"><i class="fas fa-calendar-alt"></i><span>Eventograma</span></div>
-                    <div class="folder-card" onclick="abrirPasta('Formulários em geral')"><i class="fas fa-list-alt"></i><span>Formulários em geral</span></div>
-                    <div class="folder-card" onclick="abrirPasta('Financeiro')"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></div>
-                    <div class="folder-card" onclick="abrirPasta('Documentos')"><i class="fas fa-folder"></i><span>Documentos</span></div>
-                </div>
-            </div>
-        </div>
-        <div id="pasta-arquivos" class="page-content">
-            <div class="gallery-header">
-                <div>
-                    <h1 id="titulo-pasta-arquivos">Nome da Pasta - Obra</h1>
-                    <p class="subtitle">Gerenciamento de arquivos e documentos</p>
-                </div>
-                <button class="btn-back" onclick="showPage('obras')"><i class="fas fa-arrow-left"></i> Voltar para Pastas</button>
-            </div>
-
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
-                    <div style="position: relative; width: 100%; max-width: 300px;">
-                        <input type="text" class="form-control" placeholder="Buscar arquivo..." style="padding-left: 35px;">
-                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 12px; color: #999;"></i>
-                    </div>
-                    <button class="btn-update"><i class="fas fa-upload"></i> Adicionar Arquivo</button>
-                </div>
-
-                <div class="excel-wrapper">
-                    <table class="excel-table" style="min-width: 100%;">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px; text-align: center;"><i class="fas fa-file"></i></th>
-                                <th style="text-align: left;">Nome do Arquivo</th>
-                                <th>Modificado em</th>
-                                <th>Modificado por</th>
-                                <th>Tamanho</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="text-align: center; color: #dc3545;"><i class="fas fa-file-pdf fa-lg"></i></td>
-                                <td style="text-align: left;"><strong>Exemplo_Contrato_V1.pdf</strong></td>
-                                <td>24/03/2026</td>
-                                <td>Pedro (Você)</td>
-                                <td>2.4 MB</td>
-                                <td style="text-align: center; color: var(--azul-claro); cursor: pointer;">
-                                    <i class="fas fa-download" title="Baixar"></i> 
-                                    <i class="fas fa-trash-alt" style="margin-left: 15px; color: #dc3545;" title="Excluir"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: center; color: #28a745;"><i class="fas fa-file-excel fa-lg"></i></td>
-                                <td style="text-align: left;"><strong>Controle_Financeiro_Março.xlsx</strong></td>
-                                <td>23/03/2026</td>
-                                <td>Engenharia</td>
-                                <td>1.1 MB</td>
-                                <td style="text-align: center; color: var(--azul-claro); cursor: pointer;">
-                                    <i class="fas fa-download" title="Baixar"></i> 
-                                    <i class="fas fa-trash-alt" style="margin-left: 15px; color: #dc3545;" title="Excluir"></i>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div style="text-align: center; padding: 40px; border: 2px dashed #ccc; border-radius: 8px; margin-top: 20px; background: #f9f9f9;">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #ccc; margin-bottom: 10px;"></i>
-                    <p style="color: #666; font-weight: bold;">Arraste e solte arquivos aqui para fazer upload</p>
-                    <p style="font-size: 12px; color: #999;">O backend do seu amigo vai capturar esses arquivos depois.</p>
-                </div>
-            </div>
-        </div>
-            <div id="noticias" class="page-content">
+        <div id="noticias" class="page-content">
             <div class="gallery-header">
                 <div>
                     <h1>Notícias e Comunicados</h1>
@@ -836,6 +820,30 @@
                 </div>
             </div>
         </div>
+
+        <div id="galeria" class="page-content">
+            <div class="gallery-header">
+                <div>
+                    <h1>Galeria de Obras</h1>
+                    <p class="subtitle">Acompanhamento fotográfico dos projetos SP</p>
+                </div>
+                <button class="btn-back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Voltar ao Início</button>
+            </div>
+
+            <div class="card" style="background: transparent; box-shadow: none; padding: 0;">
+                <div class="gallery-filters">
+                    <button class="filter-btn active" onclick="filtrarGaleria(event, 'todas')">Todas as Obras</button>
+                    <button class="filter-btn" onclick="filtrarGaleria(event, 'remodelacao')">Remodelação</button>
+                    <button class="filter-btn" onclick="filtrarGaleria(event, 'campo-grande')">Campo Grande</button>
+                    <button class="filter-btn" onclick="filtrarGaleria(event, 'aparecida')">Aparecida</button>
+                    <button class="filter-btn" onclick="filtrarGaleria(event, 'cco')">CCO</button>
+                </div>
+
+                <div class="expanded-gallery" id="grid-galeria">
+                    </div>
+            </div>
+        </div>
+
         <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
         <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
@@ -1081,6 +1089,33 @@
         window.addEventListener('load', renderizarAgenda);
 
         // ==========================================
+        // LÓGICA DO MURAL DE NOTÍCIAS
+        // ==========================================
+        function abrirModalNoticia() { document.getElementById('modal-noticia').style.display = 'flex'; }
+        function fecharModalNoticia() { document.getElementById('modal-noticia').style.display = 'none'; }
+        function salvarNoticia() {
+            alert('Perfeito! Quando o backend estiver pronto, este botão enviará o texto e a foto para o banco de dados da MRS.');
+            fecharModalNoticia();
+        }
+
+        // ==========================================
+        // LÓGICA DAS PASTAS DE OBRAS
+        // ==========================================
+        let obraSelecionadaAgora = 'Remodelação';
+
+        function selecionarObra(event, nomeObra) {
+            obraSelecionadaAgora = nomeObra;
+            document.querySelectorAll('.obra-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('titulo-obra-atual').innerHTML = `<i class="fas fa-folder-open" style="color: var(--amarelo-mrs); margin-right: 8px;"></i> Pastas da Obra: ${nomeObra}`;
+        }
+
+        function abrirPasta(nomePasta) {
+            document.getElementById('titulo-pasta-arquivos').innerText = `${nomePasta} - ${obraSelecionadaAgora}`;
+            showPage('pasta-arquivos'); 
+        }
+
+        // ==========================================
         // LÓGICA DA GALERIA EXPANDIDA E FILTROS
         // ==========================================
         const fotosObras = [
@@ -1094,7 +1129,7 @@
 
         function renderizarGaleria(filtro) {
             const container = document.getElementById('grid-galeria');
-            if(!container) return; // Segurança extra
+            if(!container) return; 
             
             container.innerHTML = '';
             
@@ -1118,37 +1153,6 @@
         }
 
         window.addEventListener('load', () => renderizarGaleria('todas'));
-
-       // ==========================================
-        // LÓGICA DAS PASTAS E ARQUIVOS
-        // ==========================================
-        let obraSelecionadaAgora = 'Remodelação'; // O sistema começa lembrando dessa obra por padrão
-
-        function selecionarObra(event, nomeObra) {
-            obraSelecionadaAgora = nomeObra; // Atualiza a memória do sistema
-            
-            document.querySelectorAll('.obra-tab').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.getElementById('titulo-obra-atual').innerHTML = `<i class="fas fa-folder-open" style="color: var(--amarelo-mrs); margin-right: 8px;"></i> Pastas da Obra: ${nomeObra}`;
-        }
-
-        function abrirPasta(nomePasta) {
-            // Escreve o título exato (Ex: Contratos - Campo Grande)
-            document.getElementById('titulo-pasta-arquivos').innerText = `${nomePasta} - ${obraSelecionadaAgora}`;
-            showPage('pasta-arquivos'); // Abre a nossa nova página
-        }
-
-        // ==========================================
-        // LÓGICA DO MURAL DE NOTÍCIAS
-        // ==========================================
-        function abrirModalNoticia() { document.getElementById('modal-noticia').style.display = 'flex'; }
-        function fecharModalNoticia() { document.getElementById('modal-noticia').style.display = 'none'; }
-        function salvarNoticia() {
-            alert('Perfeito! Quando o backend estiver pronto, este botão enviará o texto e a foto para o banco de dados da MRS.');
-            fecharModalNoticia();
-        }
-        
     </script>
 </body>
 </html>
