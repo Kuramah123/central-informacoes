@@ -40,11 +40,11 @@
         .sidebar.collapsed { left: calc(-1 * var(--sidebar-width)); }
 
         .logo-box { background: white; padding: 25px; text-align: center; border-bottom: 5px solid var(--amarelo-mrs); min-height: 100px; display: flex; align-items: center; justify-content: center; }
-      .logo-box { 
-            background: white; 
-            padding: 15px 25px; /* Diminuí um pouco o respiro de cima e de baixo */
+.logo-box { 
+            background: var(--azul-mrs); /* TROQUEI 'white' PELO AZUL DA MRS */
+            padding: 15px 25px; 
             text-align: center; 
-            border-bottom: 5px solid var(--amarelo-mrs); 
+            border-bottom: 5px solid var(--amarelo-mrs); /* MANTIVEMOS A LINHA AMARELA */
             min-height: 100px; 
             display: flex; 
             align-items: center; 
@@ -246,7 +246,7 @@
 
 <aside class="sidebar" id="sidebar">
         <div class="logo-box">
-            <img src="logo-mrs.png" alt="Logotipo MRS">
+            <img src="logo-mrs (2).png" alt="Logotipo MRS">
         </div>
         <ul class="nav-links">
             <li><a onclick="showPage('home')" id="link-home" class="active"><i class="fas fa-home"></i> Início</a></li>
