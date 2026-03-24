@@ -690,14 +690,78 @@
                     Pastas da Obra: Remodelação
                 </h2>
                 
-                <div class="folder-grid">
-                    <div class="folder-card"><i class="fas fa-file-signature"></i><span>Contratos</span></div>
-                    <div class="folder-card"><i class="fas fa-drafting-compass"></i><span>Projetos</span></div>
-                    <div class="folder-card"><i class="fas fa-camera"></i><span>Fotos</span></div>
-                    <div class="folder-card"><i class="fas fa-calendar-alt"></i><span>Eventograma</span></div>
-                    <div class="folder-card"><i class="fas fa-list-alt"></i><span>Formulários em geral</span></div>
-                    <div class="folder-card"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></div>
-                    <div class="folder-card"><i class="fas fa-folder"></i><span>Documentos</span></div>
+<div class="folder-grid">
+                    <div class="folder-card" onclick="abrirPasta('Contratos')"><i class="fas fa-file-signature"></i><span>Contratos</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Projetos')"><i class="fas fa-drafting-compass"></i><span>Projetos</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Fotos')"><i class="fas fa-camera"></i><span>Fotos</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Eventograma')"><i class="fas fa-calendar-alt"></i><span>Eventograma</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Formulários em geral')"><i class="fas fa-list-alt"></i><span>Formulários em geral</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Financeiro')"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></div>
+                    <div class="folder-card" onclick="abrirPasta('Documentos')"><i class="fas fa-folder"></i><span>Documentos</span></div>
+                </div>
+            </div>
+        </div>
+        <div id="pasta-arquivos" class="page-content">
+            <div class="gallery-header">
+                <div>
+                    <h1 id="titulo-pasta-arquivos">Nome da Pasta - Obra</h1>
+                    <p class="subtitle">Gerenciamento de arquivos e documentos</p>
+                </div>
+                <button class="btn-back" onclick="showPage('obras')"><i class="fas fa-arrow-left"></i> Voltar para Pastas</button>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <div style="position: relative; width: 100%; max-width: 300px;">
+                        <input type="text" class="form-control" placeholder="Buscar arquivo..." style="padding-left: 35px;">
+                        <i class="fas fa-search" style="position: absolute; left: 12px; top: 12px; color: #999;"></i>
+                    </div>
+                    <button class="btn-update"><i class="fas fa-upload"></i> Adicionar Arquivo</button>
+                </div>
+
+                <div class="excel-wrapper">
+                    <table class="excel-table" style="min-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;"><i class="fas fa-file"></i></th>
+                                <th style="text-align: left;">Nome do Arquivo</th>
+                                <th>Modificado em</th>
+                                <th>Modificado por</th>
+                                <th>Tamanho</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; color: #dc3545;"><i class="fas fa-file-pdf fa-lg"></i></td>
+                                <td style="text-align: left;"><strong>Exemplo_Contrato_V1.pdf</strong></td>
+                                <td>24/03/2026</td>
+                                <td>Pedro (Você)</td>
+                                <td>2.4 MB</td>
+                                <td style="text-align: center; color: var(--azul-claro); cursor: pointer;">
+                                    <i class="fas fa-download" title="Baixar"></i> 
+                                    <i class="fas fa-trash-alt" style="margin-left: 15px; color: #dc3545;" title="Excluir"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; color: #28a745;"><i class="fas fa-file-excel fa-lg"></i></td>
+                                <td style="text-align: left;"><strong>Controle_Financeiro_Março.xlsx</strong></td>
+                                <td>23/03/2026</td>
+                                <td>Engenharia</td>
+                                <td>1.1 MB</td>
+                                <td style="text-align: center; color: var(--azul-claro); cursor: pointer;">
+                                    <i class="fas fa-download" title="Baixar"></i> 
+                                    <i class="fas fa-trash-alt" style="margin-left: 15px; color: #dc3545;" title="Excluir"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="text-align: center; padding: 40px; border: 2px dashed #ccc; border-radius: 8px; margin-top: 20px; background: #f9f9f9;">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: #ccc; margin-bottom: 10px;"></i>
+                    <p style="color: #666; font-weight: bold;">Arraste e solte arquivos aqui para fazer upload</p>
+                    <p style="font-size: 12px; color: #999;">O backend do seu amigo vai capturar esses arquivos depois.</p>
                 </div>
             </div>
         </div>
@@ -984,18 +1048,24 @@
 
         window.addEventListener('load', () => renderizarGaleria('todas'));
 
+       // ==========================================
+        // LÓGICA DAS PASTAS E ARQUIVOS
         // ==========================================
-        // LÓGICA DAS PASTAS DE OBRAS
-        // ==========================================
+        let obraSelecionadaAgora = 'Remodelação'; // O sistema começa lembrando dessa obra por padrão
+
         function selecionarObra(event, nomeObra) {
-            // Tira a cor azul de todos os botões de obras
-            document.querySelectorAll('.obra-tab').forEach(btn => btn.classList.remove('active'));
+            obraSelecionadaAgora = nomeObra; // Atualiza a memória do sistema
             
-            // Pinta de azul o botão que o usuário clicou
+            document.querySelectorAll('.obra-tab').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Muda o título das pastas para a obra selecionada
             document.getElementById('titulo-obra-atual').innerHTML = `<i class="fas fa-folder-open" style="color: var(--amarelo-mrs); margin-right: 8px;"></i> Pastas da Obra: ${nomeObra}`;
+        }
+
+        function abrirPasta(nomePasta) {
+            // Escreve o título exato (Ex: Contratos - Campo Grande)
+            document.getElementById('titulo-pasta-arquivos').innerText = `${nomePasta} - ${obraSelecionadaAgora}`;
+            showPage('pasta-arquivos'); // Abre a nossa nova página
         }
         
     </script>
