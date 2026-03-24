@@ -975,48 +975,45 @@
 
         function abrirModalNoticia() { document.getElementById('modal-noticia').style.display = 'flex'; }
         function fecharModalNoticia() { document.getElementById('modal-noticia').style.display = 'none'; }
-        async function salvarNoticia() {
-            // Pegando os valores digitados no formulário do seu Modal
-            const titulo = document.querySelector('#modal-noticia input[type="text"]').value;
-            const categoria = document.querySelector('#modal-noticia select').value;
-            const conteudo = document.querySelector('#modal-noticia textarea').value;
-            
-            // Link de imagem padrão (já que o upload de arquivo real é o próximo passo)
-            const imagemPadrao = "https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg";
+async function salvarNoticia() {
+            const titulo = document.getElementById('not-titulo').value;
+            const categoria = document.getElementById('not-cat').value;
+            const conteudo = document.getElementById('not-cont').value;
+            const urlAutomate = "https://default0e36c668-f89c-4391-b4e0-d7a7896721.00.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/56d22033d8f64ecb879385f30a4931b4/triggers/manual/paths/invoke?api-version=1";
 
             if (!titulo || !conteudo) {
-                alert("Por favor, preencha o título e o conteúdo da notícia!");
+                alert("Por favor, preencha o título e o conteúdo!");
                 return;
             }
 
-            // Pacote de dados para o seu fluxo do Power Automate
-            const dadosNoticia = {
-                titulo: titulo,
-                categoria: categoria,
-                imagem: imagemPadrao,
-                conteudo: conteudo
+            const dados = { 
+                titulo: titulo, 
+                categoria: categoria, 
+                conteudo: conteudo, 
+                imagem: "https://www.mrs.com.br/wp-content/uploads/2023/05/MRS-Logistica-1.jpg" 
             };
 
             try {
-                // Enviando para a sua URL oficial do Power Automate
-                const response = await fetch("https://default0e36c668-f89c-4391-b4e0-d7a7896721.00.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/56d22033d8f64ecb879385f30a4931b4/triggers/manual/paths/invoke?api-version=1", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dadosNoticia)
+                // O 'mode: no-cors' faz o navegador enviar os dados ignorando a trava de segurança
+                await fetch(urlAutomate, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
                 });
 
-                if (response.ok) {
-                    alert('Sucesso! A notícia foi enviada e salva no SharePoint.');
-                    fecharModalNoticia();
-                    // Limpa os campos do formulário
-                    document.querySelector('#modal-noticia input[type="text"]').value = "";
-                    document.querySelector('#modal-noticia textarea').value = "";
-                } else {
-                    alert('O Power Automate recebeu, mas houve um erro ao salvar no SharePoint.');
-                }
-            } catch (error) {
-                console.error("Erro na conexão:", error);
-                alert("Erro de conexão. Verifique se o fluxo está ativo.");
+                // Como o 'no-cors' não permite ler a resposta, assumimos que foi enviado
+                // e orientamos o usuário a verificar o SharePoint.
+                alert("Comando de envio processado! Verifique sua lista no SharePoint em alguns segundos.");
+                fecharModalNoticia();
+                
+                // Limpa os campos
+                document.getElementById('not-titulo').value = "";
+                document.getElementById('not-cont').value = "";
+
+            } catch (e) {
+                console.error("Erro no fetch:", e);
+                alert("Houve um problema na tentativa de conexão.");
             }
         }
 
