@@ -39,12 +39,11 @@
         }
         .sidebar.collapsed { left: calc(-1 * var(--sidebar-width)); }
 
-        .logo-box { background: white; padding: 25px; text-align: center; border-bottom: 5px solid var(--amarelo-mrs); min-height: 100px; display: flex; align-items: center; justify-content: center; }
-.logo-box { 
-            background: var(--azul-mrs); /* TROQUEI 'white' PELO AZUL DA MRS */
+        .logo-box { 
+            background: var(--azul-mrs); 
             padding: 15px 25px; 
             text-align: center; 
-            border-bottom: 5px solid var(--amarelo-mrs); /* MANTIVEMOS A LINHA AMARELA */
+            border-bottom: 5px solid var(--amarelo-mrs); 
             min-height: 100px; 
             display: flex; 
             align-items: center; 
@@ -52,10 +51,11 @@
         }
         .logo-box img { 
             width: 100%; 
-            max-width: 150px; /* Limitando o tamanho da logo aqui! */
+            max-width: 150px; 
             height: auto; 
             display: block;
         }
+
         .nav-links { list-style: none; margin-top: 15px; }
         .nav-links li a { 
             display: flex; align-items: center; padding: 15px 25px; 
@@ -109,7 +109,27 @@
         .photo-gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
 
         /* =========================================
-           ABA MEDIÇÕES
+           ABA GALERIA EXPANDIDA E FILTROS
+        ========================================= */
+        .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-back { background: var(--azul-mrs); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-back:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
+        
+        .gallery-filters { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .filter-btn { background: #eee; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; color: var(--texto); transition: 0.3s; }
+        .filter-btn:hover, .filter-btn.active { background: var(--azul-mrs); color: white; border-color: var(--azul-mrs); }
+        
+        .expanded-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .gallery-item { border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; }
+        .gallery-item:hover { transform: scale(1.03); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .gallery-item img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .gallery-item .img-caption { padding: 10px; background: white; font-size: 12px; font-weight: bold; color: var(--azul-mrs); text-align: center; border-top: 2px solid var(--amarelo-mrs); }
+
+        .clickable-card { cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .clickable-card:hover { border-color: var(--azul-claro); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: translateY(-3px); }
+
+        /* =========================================
+           ABA MEDIÇÕES E OUTROS
         ========================================= */
         .gauge-wrap { text-align: center; margin-bottom: 40px; }
         .gauge { position: relative; width: 200px; height: 100px; background: #ddd; border-radius: 200px 200px 0 0; overflow: hidden; margin: 0 auto; }
@@ -126,9 +146,6 @@
         .financeiro-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; color: #333; }
         .total-row { background: #f8f9fa; font-weight: bold; color: var(--azul-mrs); }
 
-        /* =========================================
-           ABA PESSOAS (ORGANOGRAMA SAP)
-        ========================================= */
         .org-wrapper { width: 100%; overflow-x: auto; overflow-y: hidden; padding: 20px 20px 40px 20px; }
         .org-wrapper::-webkit-scrollbar { height: 12px; }
         .org-wrapper::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 6px; }
@@ -149,10 +166,8 @@
 
         .sf-card { background: #ffffff; border: 1px solid #d3d9df; border-radius: 6px; padding: 12px; width: 280px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); text-align: left; transition: box-shadow 0.2s, border-color 0.2s; margin: 0 auto; }
         .sf-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-color: var(--azul-claro); }
-        
         .sf-avatar { width: 45px; height: 45px; border-radius: 50%; flex-shrink: 0; overflow: hidden; background: #e9ecef; display: flex; align-items: center; justify-content: center; }
         .sf-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        
         .sf-details { flex-grow: 1; overflow: hidden; }
         .sf-name { font-size: 11px; font-weight: bold; color: var(--azul-mrs); line-height: 1.2; margin-bottom: 2px; text-transform: uppercase; }
         .sf-role { font-size: 10px; color: #666; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -162,9 +177,6 @@
         .sf-grid-18 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
         .sf-grid-7 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
-        /* =========================================
-           ABA INTERVALOS (Sub-abas e Tabelas Excel)
-        ========================================= */
         .sub-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
         .sub-btn { background: none; border: none; padding: 10px 20px; font-size: 14px; color: var(--texto); cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; text-transform: uppercase; }
         .sub-btn:hover { background: #eee; }
@@ -197,18 +209,12 @@
         .update-bar { background: #fff3cd; color: #856404; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #ffeeba; display: flex; justify-content: space-between; align-items: center; font-size: 14px;}
         .btn-update { background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        /* =========================================
-           ABA EVENTOS E AGENDA
-        ========================================= */
         .agenda-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        
         .event-card { display: flex; background: white; border: 1px solid #eee; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; margin-bottom: 15px; }
         .event-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-color: var(--azul-claro); }
-        
         .event-date-box { background: var(--azul-mrs); width: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; flex-shrink: 0; }
         .event-date-box .dia { font-size: 32px; font-weight: bold; line-height: 1; color: var(--amarelo-mrs); }
         .event-date-box .mes { font-size: 14px; text-transform: uppercase; font-weight: bold; color: white; margin-top: 5px; }
-        
         .event-info { padding: 15px 20px; flex-grow: 1; display:flex; flex-direction: column; justify-content: center;}
         .event-info h3 { color: var(--azul-mrs); margin-bottom: 8px; font-size: 18px; }
         .event-info p { font-size: 13px; color: #555; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
@@ -216,7 +222,6 @@
         .btn-delete-event { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 16px; padding: 10px; transition: 0.2s; }
         .btn-delete-event:hover { color: #a71d2a; transform: scale(1.1); }
 
-        /* Modal Novo Evento */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-box { background: white; padding: 30px; border-radius: 8px; width: 100%; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .modal-box h2 { color: var(--azul-mrs); margin-bottom: 20px; border-left: 5px solid var(--amarelo-mrs); padding-left: 10px; text-transform: uppercase; font-size: 18px; }
@@ -228,9 +233,6 @@
         .btn-save:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
         .btn-cancel { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px; }
 
-        /* =========================================
-           POWER BI IFRAME
-        ========================================= */
         .powerbi-frame { 
             width: 100%; 
             height: 800px;
@@ -244,7 +246,7 @@
 </head>
 <body>
 
-<aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="logo-box">
             <img src="logo-mrs (2).png" alt="Logotipo MRS">
         </div>
@@ -299,9 +301,7 @@
                 </div>
 
                 <div class="right-col">
-                    <div class="card">
-                        <h2>Galeria de Fotos</h2>
-<div class="card clickable-card" onclick="showPage('galeria')">
+                    <div class="card clickable-card" onclick="showPage('galeria')">
                         <h2 style="justify-content: space-between;">Galeria de Fotos <i class="fas fa-expand-arrows-alt" style="color: #ccc; font-size: 14px;"></i></h2>
                         <div class="photo-gallery">
                             <img src="https://picsum.photos/id/191/200/200">
@@ -311,8 +311,7 @@
                         </div>
                         <p style="text-align: center; font-size: 12px; margin-top: 15px; color: var(--azul-claro); font-weight: bold;">Clique para expandir</p>
                     </div>
-                        </div>
-                    </div>
+
                     <div class="card" style="border-left: 5px solid var(--amarelo-mrs);">
                         <p style="font-size: 12px; font-weight: bold; color: var(--azul-mrs);">STATUS DO MÊS</p>
                         <p style="font-size: 22px; font-weight: bold; margin-top:5px;">95,3% Medido</p>
@@ -654,22 +653,21 @@
                     </div>
             </div>
         </div>
+
         <div id="custos" class="page-content"><h1>Custos</h1><div class="card"><p>Painel de custos em desenvolvimento.</p></div></div>
         <div id="metas" class="page-content"><h1>Metas</h1><div class="card"><p>Indicadores de performance.</p></div></div>
 
     </main>
 
     <script>
-function showPage(pageId) {
-            // Esconde todas as páginas e desmarca todos os botões do menu
+        // Lógica de Troca de Páginas (Corrigida para abas sem menu lateral)
+        function showPage(pageId) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
             
-            // Mostra a página que foi chamada
             let pagina = document.getElementById(pageId);
             if (pagina) pagina.classList.add('active');
             
-            // Só tenta acender o botão do menu se ele existir! (Isso resolve o bug)
             let linkMenu = document.getElementById('link-' + pageId);
             if (linkMenu) linkMenu.classList.add('active');
         }
@@ -686,28 +684,6 @@ function showPage(pageId) {
             document.getElementById('btn-' + tabId).classList.add('active');
         }
 
-        /* =========================================
-           ABA GALERIA EXPANDIDA E FILTROS
-        ========================================= */
-        .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-back { background: var(--azul-mrs); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-back:hover { background: var(--amarelo-mrs); color: var(--azul-mrs); }
-        
-        .gallery-filters { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .filter-btn { background: #eee; border: 1px solid #ccc; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; color: var(--texto); transition: 0.3s; }
-        .filter-btn:hover, .filter-btn.active { background: var(--azul-mrs); color: white; border-color: var(--azul-mrs); }
-        
-        .expanded-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .gallery-item { border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; }
-        .gallery-item:hover { transform: scale(1.03); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .gallery-item img { width: 100%; height: 160px; object-fit: cover; display: block; }
-        .gallery-item .img-caption { padding: 10px; background: white; font-size: 12px; font-weight: bold; color: var(--azul-mrs); text-align: center; border-top: 2px solid var(--amarelo-mrs); }
-
-        /* Efeito de clique no card pequeno da Home */
-        .clickable-card { cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-        .clickable-card:hover { border-color: var(--azul-claro); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: translateY(-3px); }
-
-        
         // ==========================================
         // LEITOR AUTOMÁTICO DO ARQUIVO CSV (EXCEL)
         // ==========================================
@@ -922,10 +898,9 @@ function showPage(pageId) {
 
         window.addEventListener('load', renderizarAgenda);
 
-// ==========================================
+        // ==========================================
         // LÓGICA DA GALERIA EXPANDIDA E FILTROS
         // ==========================================
-        // Aqui você pode adicionar os links reais das suas fotos no futuro
         const fotosObras = [
             { url: "https://picsum.photos/id/191/400/300", obra: "remodelacao", titulo: "Remodelação - Troca de Trilhos" },
             { url: "https://picsum.photos/id/192/400/300", obra: "campo-grande", titulo: "Campo Grande - Terraplanagem" },
@@ -937,6 +912,8 @@ function showPage(pageId) {
 
         function renderizarGaleria(filtro) {
             const container = document.getElementById('grid-galeria');
+            if(!container) return; // Segurança extra
+            
             container.innerHTML = '';
             
             const fotosFiltradas = filtro === 'todas' ? fotosObras : fotosObras.filter(f => f.obra === filtro);
@@ -958,9 +935,7 @@ function showPage(pageId) {
             renderizarGaleria(obra);
         }
 
-        // Carrega todas as fotos quando o site abre
         window.addEventListener('load', () => renderizarGaleria('todas'));
-        
     </script>
 </body>
 </html>
