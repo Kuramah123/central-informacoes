@@ -232,11 +232,35 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
             margin-top: 15px;
         }
+
+        /* =========================================
+           RODAPÉ DA BARRA LATERAL
+        ========================================= */
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6); /* Branco um pouco transparente para não gritar muito na tela */
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            line-height: 1.4;
+        }
+        .sidebar-footer strong {
+            color: white;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .sidebar-footer span {
+            display: block;
+        }
+        
     </style>
 </head>
 <body>
 
-    <aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar">
         <div class="logo-box">
             <img src="logo-mrs (2).png" alt="Logotipo MRS">
         </div>
@@ -251,6 +275,11 @@
             <li><a onclick="showPage('pessoas')" id="link-pessoas"><i class="fas fa-users"></i> Pessoas</a></li>
             <li><a onclick="showPage('metas')" id="link-metas"><i class="fas fa-bullseye"></i> Metas</a></li>
         </ul>
+        
+        <div class="sidebar-footer">
+            <strong>Gerência de Implantação de Obras Ferroviárias - SP</strong>
+            <span>v1.0.0 | Desenvolvido por Pedro</span>
+        </div>
     </aside>
 
     <main class="main-content" id="main-content">
