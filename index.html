@@ -976,35 +976,32 @@
         function abrirModalNoticia() { document.getElementById('modal-noticia').style.display = 'flex'; }
         function fecharModalNoticia() { document.getElementById('modal-noticia').style.display = 'none'; }
         async function salvarNoticia() {
-            console.log("Botão salvar clicado..."); // Mensagem invisível para ajudar a testar (F12)
+            console.log("Botão salvar clicado...");
 
-            // 1. Procurando os campos exatamente como eles estão no seu HTML de 1000 linhas
             const modal = document.getElementById('modal-noticia');
             const campoTitulo = modal.querySelector('input[type="text"]');
             const campoCategoria = modal.querySelector('select');
             const campoConteudo = modal.querySelector('textarea');
 
-            // Se o navegador não achar os campos, ele avisa
             if (!campoTitulo || !campoConteudo) {
-                alert("Erro interno: Campos não encontrados no HTML.");
+                alert("Erro interno: Campos não encontrados.");
                 return;
             }
 
-            // 2. Pegando o texto que você digitou
             const titulo = campoTitulo.value;
             const categoria = campoCategoria.value;
             const conteudo = campoConteudo.value;
             
-            // A sua URL oficial do Power Automate
-            const urlAutomate = "https://default0e36c668-f89c-4391-b4e0-d7a7896721.00.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/56d22033d8f64ecb879385f30a4931b4/triggers/manual/paths/invoke?api-version=1";
+            // ========================================================
+            // COLE O LINK GIGANTE DO POWER AUTOMATE DENTRO DAS ASPAS:
+            const urlAutomate = "https://default0e36c668f89c4391b4e0d7a7896721.00.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/56d22033d8f64ecb879385f30a4931b4/triggers/manual/paths/invoke?api-version=1";
+            // ========================================================
 
-            // Se deixar em branco, ele barra
             if (!titulo || !conteudo) {
                 alert("Por favor, preencha o título e o conteúdo!");
                 return;
             }
 
-            // 3. Montando a "caixa" de dados
             const dados = { 
                 titulo: titulo, 
                 categoria: categoria, 
@@ -1013,32 +1010,28 @@
             };
 
             try {
-                console.log("Enviando pacote para o Automate:", dados);
+                console.log("Enviando dados...", dados);
                 
-                // 4. Disparando para a nuvem da Microsoft (com o no-cors para driblar o bloqueio)
-                await fetch(urlAutomate, {
+                const response = await fetch(urlAutomate, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dados)
                 });
 
-                console.log("Requisição concluída.");
-                alert("Comando processado! Como a segurança do navegador é alta, aguarde alguns segundos e verifique sua lista no SharePoint.");
-                
-                // Fecha a janela
-                document.getElementById('modal-noticia').style.display = 'none';
-                
-                // Limpa as caixinhas para a próxima vez
-                campoTitulo.value = "";
-                campoConteudo.value = "";
+                if (response.ok) {
+                    alert("Sucesso! Notícia salva no SharePoint.");
+                    document.getElementById('modal-noticia').style.display = 'none';
+                    campoTitulo.value = "";
+                    campoConteudo.value = "";
+                } else {
+                    alert("Erro! A Microsoft recusou a conexão. Verifique se copiou o link inteiro com a assinatura final.");
+                }
 
             } catch (e) {
-                console.error("Erro fatal no envio:", e);
-                alert("Houve um erro na conexão com o servidor. Pressione F12 para ver os detalhes.");
+                console.error("Erro fatal:", e);
+                alert("Houve um erro na conexão. Aperte F12 para ler o código do erro.");
             }
         }
-        
         let obraSelecionadaAgora = 'Remodelação';
         function selecionarObra(event, nomeObra) {
             obraSelecionadaAgora = nomeObra;
